@@ -23,14 +23,15 @@
 
 SDSP_BEGIN_DECLS
 
-
 /* Native libsdsp error codes */
 #define E_SDSP_BADCHECKSUM 	1
-#define E_SDSP_BADDATA			2
-#define E_SDSP_BADEXC 			3
-#define E_SDSP_UNKEXC 			4
-#define E_SDSP_MDATA  			5
 
+/*
+typedef enum {
+	DISPLAY_TYPE_SSD1306=11306,
+
+} display_type_t;
+*/
 
 extern const unsigned int libsdsp_version_major;
 extern const unsigned int libsdsp_version_minor;
@@ -41,6 +42,7 @@ typedef struct _sdsp sdsp_t;
 
 /* sdsp core funcions */
 int8_t sdsp_init(sdsp_t *ctx);
+void sdsp_test(sdsp_t *);
 void sdsp_close(sdsp_t *);
 void sdsp_free(sdsp_t *ctx);
 

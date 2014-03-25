@@ -25,46 +25,28 @@ typedef enum {
 	_SDSP_BACKEND_TYPE_RTU=0
 } sdsp_bakend_type_t;
 
-/* This structure reduces the number of params in functions and so
-* optimizes the speed of execution (~ 37%). */
-typedef struct _sft {
-	int sdsp_id;
-	int instruction;
-	int t_id;
-} sft_t;
 
 typedef struct _sdsp_display {
-	uint8_t backend_type;
-	uint8_t header_length;
-	uint8_t checksum_length;
-	uint8_t max_adu_length;
+
+	int8_t (*select) (sdsp_t *ctx, );
 		
-	int8_t (*build_request_basis) (sdsp_t *ctx, uint8_t id, sdsp_request_t instruction,
-																 uint8_t parameter_count, uint8_t *req);
-	//int8_t (*build_response_basis) (sft_t *sft, uint8_t *rsp);
-	//int8_t (*prepare_response_tid) (const uint8_t *req, int *req_length);
-		
-	int8_t (*send_msg_pre) (uint8_t *req, uint8_t req_length);
-	ssize_t (*send) (sdsp_t *ctx, const uint8_t *req, uint8_t req_length);
-	ssize_t (*recv) (sdsp_t *ctx, uint8_t *rsp, uint8_t rsp_length);
-	int8_t (*check_integrity) (sdsp_t *ctx, uint8_t *msg,
-														const uint8_t msg_length);
-	int8_t (*connect) (sdsp_t *ctx);
-	void (*close) (sdsp_t *ctx);
-	int8_t (*flush) (sdsp_t *ctx);
-	int8_t (*select) (sdsp_t *ctx, fd_set *rfds, struct timeval *tv, uint8_t msg_length);
+	int8_t (*init) (sdsp_t *ctx);
+	int8_t (*invert) (sdsp_t *ctx);
+	int8_t (*update) (sdsp_t *ctx);
+	int8_t (*clear) (sdsp_t *ctx);
+	int8_t (*set_pixel) (sdsp_t *ctx);
+	
 } sdsp_backend_t;
 
 struct _sdsp {
+	uint8_t width;
+	uint8_t height;
+	uint16_t type_id;
+	uint16_t features;
+
 	/* Socket or file descriptor */
-	int s;
 	bool debug;
-	bool error_recovery;
-	struct timeval response_timeout;
-	struct timeval byte_timeout;
-	const sdsp_backend_t *backend;
-	void *backend_data;
-	uint8_t *response_data;
+	void *display_data;
 };
 
 void _sdsp_init_common(sdsp_t *ctx);
