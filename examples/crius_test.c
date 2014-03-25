@@ -6,7 +6,7 @@
 int main(void) {
 	sdsp_t *ctx;
 
-	ctx = sdsp_new_ssd1306();
+	ctx = sdsp_new_crius();
 
 	sdsp_set_debug(ctx,SDSP_DEBUG);
 	

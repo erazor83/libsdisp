@@ -27,6 +27,14 @@ void sdsp_clear(sdsp_t *ctx){
 }
 
 
+void sdsp_dump(sdsp_t* ctx) {
+	//TODO
+}
+
+void sdsp_display_dump_name(sdsp_t* ctx) {
+	//TODO
+}
+
 
 void sdsp_close(sdsp_t *ctx) {
 	if (ctx == NULL) {
