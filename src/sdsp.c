@@ -15,6 +15,18 @@
 #include "sdsp.h"
 #include "sdsp-private.h"
 
+int8_t sdsp_init(sdsp_t *ctx){
+	//TODO
+	return -1;
+}
+void sdsp_test(sdsp_t *ctx){
+	//TODO
+}
+void sdsp_clear(sdsp_t *ctx){
+	//TODO
+}
+
+
 
 void sdsp_close(sdsp_t *ctx) {
 	if (ctx == NULL) {

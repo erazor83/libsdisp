@@ -20,6 +20,7 @@
 # define SDSP_END_DECLS
 #endif
 
+#include <stdbool.h>
 
 SDSP_BEGIN_DECLS
 
@@ -44,10 +45,10 @@ typedef struct _sdsp sdsp_t;
 
 
 /* sdsp core funcions */
-int8_t sdsp_init(sdsp_t *ctx);
-void sdsp_test(sdsp_t *);
-void sdsp_close(sdsp_t *);
-void sdsp_free(sdsp_t *ctx);
+int8_t sdsp_init(sdsp_t*);
+void sdsp_test(sdsp_t*);
+void sdsp_close(sdsp_t*);
+void sdsp_free(sdsp_t*);
 
 
 SDSP_END_DECLS
