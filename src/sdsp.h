@@ -23,6 +23,9 @@
 
 SDSP_BEGIN_DECLS
 
+#define SDSP_DEBUG 1
+#define SDSP_NO_DEBUG 0
+
 /* Native libsdsp error codes */
 #define E_SDSP_BADCHECKSUM 	1
 

@@ -1,0 +1,1 @@
+/usr/bin/cc      CMakeFiles/search.dir/ssd1306_test.c.o  -o search -rdynamic -lsdsp 

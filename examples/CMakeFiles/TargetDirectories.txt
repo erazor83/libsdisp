@@ -1,0 +1,1 @@
+/home/erazor/dev/libsdsp/examples/CMakeFiles/search.dir

@@ -21,7 +21,7 @@ void sdsp_close(sdsp_t *ctx) {
 		return;
 	}
 
-	ctx->backend->close(ctx);
+	//ctx->display_data->close(ctx);
 }
 
 void sdsp_free(sdsp_t *ctx) {
@@ -39,5 +39,3 @@ void sdsp_set_debug(sdsp_t *ctx, bool value) {
 	ctx->debug = value;
 }
 
-
-#endif

@@ -28,7 +28,7 @@ typedef enum {
 
 typedef struct _sdsp_display {
 
-	int8_t (*select) (sdsp_t *ctx, );
+	int8_t (*select) (sdsp_t *ctx);
 		
 	int8_t (*init) (sdsp_t *ctx);
 	int8_t (*invert) (sdsp_t *ctx);
