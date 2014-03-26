@@ -28,7 +28,7 @@ make install
 </pre>
 
 There are some options to enable different additional features:
-  * WITH_SHARED - build shared .so file (libdynamixel_shared.so)
+  * WITH_SHARED - build shared .so file (libsdsp_shared.so)
   * WITH_EXAMPLES - build examples
 
 <pre>
