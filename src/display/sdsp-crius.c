@@ -11,13 +11,13 @@
 #include "sdsp-private.h"
 #include "sdsp-crius.h"
 
-
 sdsp_t* sdsp_new_crius(void) {
 	sdsp_t *ctx;
 	ctx = (sdsp_t *) malloc(sizeof(sdsp_t));
 	ctx->features=SDSP_CRIUS_FEATURES;
 	ctx->width=SDSP_CRIUS_WIDTH;
 	ctx->height=SDSP_CRIUS_HEIGHT;
+	ctx->type_name=SDSP_CRIUS_NAME;
 	return ctx;
 }
 

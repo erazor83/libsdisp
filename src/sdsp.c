@@ -28,13 +28,17 @@ void sdsp_clear(sdsp_t *ctx){
 
 
 void sdsp_dump(sdsp_t* ctx) {
-	//TODO
+	printf("name:     %s\n",ctx->type_name);
+	printf("width:    %i\n",ctx->width);
+	printf("height:   %i\n",ctx->height);
+	printf("features: 0x%04x\n",ctx->features);
+	if (ctx->features & SDSP_FEATURE_GRAPHIC)  {
+		printf("  * SDSP_FEATURE_GRAPHIC\n");
+	}
+	if (ctx->features & SDSP_FEATURE_MONOCHROME)  {
+		printf("  * SDSP_FEATURE_MONOCHROME\n");
+	}
 }
-
-void sdsp_display_dump_name(sdsp_t* ctx) {
-	//TODO
-}
-
 
 void sdsp_close(sdsp_t *ctx) {
 	if (ctx == NULL) {

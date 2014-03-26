@@ -10,6 +10,8 @@ int main(void) {
 
 	sdsp_set_debug(ctx,SDSP_DEBUG);
 	
+	sdsp_dump(ctx);
+	
 	sdsp_init(ctx);
 	sdsp_clear(ctx);
 	

@@ -41,7 +41,7 @@ typedef struct _sdsp_display {
 struct _sdsp {
 	uint8_t width;
 	uint8_t height;
-	uint16_t type_id;
+	const char* type_name;
 	uint16_t features;
 
 	/* Socket or file descriptor */
