@@ -1,6 +1,6 @@
 libsdsp
 ============
-
+![Display/Crius](doc/img/crius.jpg "Display/Crius")
 
 a speedy C library for accessing Dynamixel AX servos
 
