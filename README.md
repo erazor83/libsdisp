@@ -10,7 +10,8 @@ TODO
 
 supported displays
 -------------------------
-  * Crius-OLED
+  * Crius-OLED 
+    * you probably need to fix the hardware: http://forum.arduino.cc/index.php?topic=159851.45
   * 
 
 install
