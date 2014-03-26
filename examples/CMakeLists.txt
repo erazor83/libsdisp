@@ -12,4 +12,7 @@ ENDIF()
 IF (WITH_DISPLAY_CRIUS)
 	ADD_EXECUTABLE(crius_test crius_test.c)
 	TARGET_LINK_LIBRARIES(crius_test sdisp)
+	
+	ADD_EXECUTABLE(crius_clear crius_clear.c)
+	TARGET_LINK_LIBRARIES(crius_clear sdisp)
 ENDIF()

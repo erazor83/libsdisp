@@ -12,6 +12,8 @@
 #include "sdisp-private.h"
 #include "sdisp-crius.h"
 
+#include "sdisp-crius-test_data.c"
+
 const uint8_t sdisp_crius__init_cmds[] = {
 	0xAE,
 	0x00,
@@ -46,7 +48,6 @@ const uint8_t sdisp_crius__init_cmds[] = {
 	0xC8,
 	
 	0xAF
-	
 };
 
 sdisp_t* sdisp_new_crius(uint8_t bus_nr) {
@@ -234,10 +235,10 @@ int sdisp_crius__invert(sdisp_t* ctx) {
 }
 int sdisp_crius__test(sdisp_t* ctx) {
 	_sdisp_print_debug(ctx,"display->test()...");
-	for (uint8_t y=0;(y<SDISP_CRIUS_HEIGHT/8);y++) {
+	for (uint8_t y=0;y<(sizeof(sdisp_crius__test_data)/SDISP_CRIUS_WIDTH);y++) {
 		sdisp_crius__mov_to(ctx,0,y);
 		for (uint8_t x=0;(x<SDISP_CRIUS_WIDTH);x++) {
-			sdisp_crius__draw_byte(ctx,x+y);
+			sdisp_crius__draw_byte(ctx,sdisp_crius__test_data[x+y*SDISP_CRIUS_WIDTH]);
 		}
 	}
 	return 0;
