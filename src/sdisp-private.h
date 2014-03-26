@@ -21,11 +21,13 @@ typedef int ssize_t;
 typedef struct _sdisp_display_calls {
 		
 	int (*init) (sdisp_t *ctx);
+	int (*mov_to) (sdisp_t *ctx,uint8_t x,uint8_t y);
+	int (*clear) (sdisp_t *ctx);
+	
 	int (*detect) (sdisp_t *ctx);
 	int (*invert) (sdisp_t *ctx);
 	int (*test) (sdisp_t *ctx);
 	
-	int (*clear) (sdisp_t *ctx);
 	int (*set_pixel) (sdisp_t *ctx);
 	
 	int (*buffer_draw) (sdisp_t *ctx);

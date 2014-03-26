@@ -15,7 +15,7 @@
 #include "sdisp.h"
 #include "sdisp-private.h"
 
-int8_t sdisp_display_init(sdisp_t *ctx){
+int8_t sdisp_display__init(sdisp_t *ctx){
 	sdisp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
@@ -28,7 +28,7 @@ int8_t sdisp_display_init(sdisp_t *ctx){
 	return -1;
 }
 
-int8_t sdisp_display_test(sdisp_t *ctx){
+int8_t sdisp_display__test(sdisp_t *ctx){
 	sdisp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
@@ -41,15 +41,28 @@ int8_t sdisp_display_test(sdisp_t *ctx){
 	return -1;
 }
 
-int8_t sdisp_display_clear(sdisp_t *ctx){
+int8_t sdisp_display__clear(sdisp_t *ctx){
 	sdisp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
 			(ctx->display_calls != NULL)) {
 		calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	}
-	if (calls->test != NULL) {
+	if (calls->clear != NULL) {
 		return calls->clear(ctx);
+	}
+	return -1;
+}
+
+int8_t sdisp_display__mov_to(sdisp_t *ctx,uint8_t x,uint8_t y){
+	sdisp_display_calls_t* calls;
+	
+	if ((ctx != NULL) && 
+			(ctx->display_calls != NULL)) {
+		calls=(sdisp_display_calls_t*)(ctx->display_calls);
+	}
+	if (calls->mov_to != NULL) {
+		return calls->mov_to(ctx,x,y);
 	}
 	return -1;
 }
