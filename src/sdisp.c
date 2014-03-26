@@ -15,56 +15,57 @@
 #include "sdisp.h"
 #include "sdisp-private.h"
 
-int8_t sdisp_display__init(sdisp_t *ctx){
-	sdisp_display_calls_t* calls;
-	
-	if ((ctx != NULL) && 
-			(ctx->display_calls != NULL)) {
-		calls=(sdisp_display_calls_t*)(ctx->display_calls);
-	}
-	if (calls->init != NULL) {
-		return calls->init(ctx);
-	}
+//preprocessor-magic... hurray!!!
+#define STRUCT_ACCESS_OP(name)				calls->name
+#define SDISP_INTERFACE_CODE(__name__)	\
+	sdisp_display_calls_t* calls;			\
+																		\
+	if ((ctx != NULL) && 							\
+			(ctx->display_calls != NULL)) {										\
+		calls=(sdisp_display_calls_t*)(ctx->display_calls);	\
+	}																											\
+	if (STRUCT_ACCESS_OP(__name__) != NULL) {			\
+		return STRUCT_ACCESS_OP(__name__)(ctx);			\
+	}																											\
 	return -1;
+	
+#define SDISP_INTERFACE_CODE_ARGS(__name__, ...)	\
+	sdisp_display_calls_t* calls;			\
+																		\
+	if ((ctx != NULL) && 							\
+			(ctx->display_calls != NULL)) {										\
+		calls=(sdisp_display_calls_t*)(ctx->display_calls);	\
+	}																											\
+	if (STRUCT_ACCESS_OP(__name__) != NULL) {			\
+		return STRUCT_ACCESS_OP(__name__)(ctx, __VA_ARGS__);			\
+	}																											\
+	return -1;
+int8_t sdisp_display__init(sdisp_t *ctx){
+	SDISP_INTERFACE_CODE(init);
 }
 
 int8_t sdisp_display__test(sdisp_t *ctx){
-	sdisp_display_calls_t* calls;
-	
-	if ((ctx != NULL) && 
-			(ctx->display_calls != NULL)) {
-		calls=(sdisp_display_calls_t*)(ctx->display_calls);
-	}
-	if (calls->test != NULL) {
-		return calls->test(ctx);
-	}
-	return -1;
+	SDISP_INTERFACE_CODE(test);
 }
 
 int8_t sdisp_display__clear(sdisp_t *ctx){
-	sdisp_display_calls_t* calls;
-	
-	if ((ctx != NULL) && 
-			(ctx->display_calls != NULL)) {
-		calls=(sdisp_display_calls_t*)(ctx->display_calls);
-	}
-	if (calls->clear != NULL) {
-		return calls->clear(ctx);
-	}
-	return -1;
+	SDISP_INTERFACE_CODE(clear);
 }
 
 int8_t sdisp_display__mov_to(sdisp_t *ctx,uint8_t x,uint8_t y){
-	sdisp_display_calls_t* calls;
-	
-	if ((ctx != NULL) && 
-			(ctx->display_calls != NULL)) {
-		calls=(sdisp_display_calls_t*)(ctx->display_calls);
-	}
-	if (calls->mov_to != NULL) {
-		return calls->mov_to(ctx,x,y);
-	}
-	return -1;
+	SDISP_INTERFACE_CODE_ARGS(mov_to, x, y);
+}
+
+int8_t sdisp_display__buffer_set_pixel_mc(sdisp_t *ctx,uint8_t x,uint8_t y,uint8_t color){
+	SDISP_INTERFACE_CODE_ARGS(buffer_set_pixel_mc,x,y,color);
+}
+
+int8_t sdisp_display__buffer_draw(sdisp_t *ctx){
+	SDISP_INTERFACE_CODE(buffer_draw);
+}
+
+int8_t sdisp_display__buffer_clear(sdisp_t *ctx){
+	SDISP_INTERFACE_CODE(buffer_clear);
 }
 
 
