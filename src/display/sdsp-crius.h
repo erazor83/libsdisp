@@ -7,7 +7,9 @@
 
 #include <sdsp.h>
 
-#define SDSP_CRIUS_FEATURES					SDSP_FEATURE_MONOCHROME | SDSP_FEATURE_GRAPHIC
+#define SDSP_CRIUS_FEATURES					SDSP_FEATURE_MONOCHROME | SDSP_FEATURE_GRAPHIC | \
+																		SDSP_FEATURE_HAS_DETECT | SDSP_FEATURE_HAS_TEST | \
+																		SDSP_FEATURE_HAS_INVERT
 #define SDSP_CRIUS_WIDTH						0
 #define SDSP_CRIUS_HEIGHT						0
 #define SDSP_CRIUS_I2C_ADDRESS			0
@@ -20,7 +22,11 @@ typedef struct _sdsp_crius {
 
 
 sdsp_t* sdsp_new_crius(void);
-int sdsp_crius_dump_name(const char*);
+int sdsp_crius_init(sdsp_t* ctx);
+
+int sdsp_crius_detect(sdsp_t* ctx);
+int sdsp_crius_invert(sdsp_t* ctx);
+int sdsp_crius_test(sdsp_t* ctx);
 
 
 SDSP_END_DECLS

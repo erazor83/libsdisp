@@ -27,16 +27,29 @@ typedef enum {
 
 
 typedef struct _sdsp_display {
-
-	int8_t (*select) (sdsp_t *ctx);
 		
 	int8_t (*init) (sdsp_t *ctx);
+	int8_t (*detect) (sdsp_t *ctx);
 	int8_t (*invert) (sdsp_t *ctx);
 	int8_t (*update) (sdsp_t *ctx);
 	int8_t (*clear) (sdsp_t *ctx);
 	int8_t (*set_pixel) (sdsp_t *ctx);
 	
 } sdsp_backend_t;
+
+typedef struct _sdsp_display_calls {
+		
+	int8_t (*init) (sdsp_t *ctx);
+	int8_t (*detect) (sdsp_t *ctx);
+	int8_t (*invert) (sdsp_t *ctx);
+	int8_t (*test) (sdsp_t *ctx);
+	
+	int8_t (*update) (sdsp_t *ctx);
+
+	int8_t (*clear) (sdsp_t *ctx);
+	int8_t (*set_pixel) (sdsp_t *ctx);
+	
+} sdsp_display_calls_t;
 
 struct _sdsp {
 	uint8_t width;
@@ -47,11 +60,13 @@ struct _sdsp {
 	/* Socket or file descriptor */
 	bool debug;
 	void *display_data;
+	void *display_calls;
 };
 
-void _sdsp_init_common(sdsp_t *ctx);
-void _error_print(sdsp_t *ctx, const char *context);
+//void _sdsp_init_common(sdsp_t *ctx);
 void sdsp_free(sdsp_t *ctx);
+
+void _sdsp_print_debug(sdsp_t *ctx, const char *txt);
 
 #ifndef HAVE_STRLCPY
 size_t strlcpy(char *dest, const char *src, size_t dest_size);

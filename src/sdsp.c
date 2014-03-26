@@ -15,15 +15,43 @@
 #include "sdsp.h"
 #include "sdsp-private.h"
 
-int8_t sdsp_init(sdsp_t *ctx){
-	//TODO
+int8_t sdsp_display_init(sdsp_t *ctx){
+	sdsp_display_calls_t* calls;
+	
+	if ((ctx != NULL) && 
+			(ctx->display_calls != NULL)) {
+		calls=(sdsp_display_calls_t*)(ctx->display_calls);
+	}
+	if (calls->init != NULL) {
+		return (void*)(calls->init)(ctx);
+	}
 	return -1;
 }
-void sdsp_test(sdsp_t *ctx){
-	//TODO
+
+void sdsp_display_test(sdsp_t *ctx){
+	sdsp_display_calls_t* calls;
+	
+	if ((ctx != NULL) && 
+			(ctx->display_calls != NULL)) {
+		calls=(sdsp_display_calls_t*)(ctx->display_calls);
+	}
+	if (calls->test != NULL) {
+		return (void*)(calls->test)(ctx);
+	}
+	return -1;
 }
-void sdsp_clear(sdsp_t *ctx){
-	//TODO
+
+void sdsp_display_clear(sdsp_t *ctx){
+	sdsp_display_calls_t* calls;
+	
+	if ((ctx != NULL) && 
+			(ctx->display_calls != NULL)) {
+		calls=(sdsp_display_calls_t*)(ctx->display_calls);
+	}
+	if (calls->test != NULL) {
+		return (void*)(calls->clear)(ctx);
+	}
+	return -1;
 }
 
 
@@ -32,11 +60,22 @@ void sdsp_dump(sdsp_t* ctx) {
 	printf("width:    %i\n",ctx->width);
 	printf("height:   %i\n",ctx->height);
 	printf("features: 0x%04x\n",ctx->features);
+	
+	
+	if (ctx->features & SDSP_FEATURE_HAS_DETECT)  {
+		printf("  * SDSP_FEATURE_HAS_DETECT\n");
+	}
+	if (ctx->features & SDSP_FEATURE_HAS_TEST)  {
+		printf("  * SDSP_FEATURE_HAS_TEST\n");
+	}
 	if (ctx->features & SDSP_FEATURE_GRAPHIC)  {
 		printf("  * SDSP_FEATURE_GRAPHIC\n");
 	}
 	if (ctx->features & SDSP_FEATURE_MONOCHROME)  {
 		printf("  * SDSP_FEATURE_MONOCHROME\n");
+	}
+	if (ctx->features & SDSP_FEATURE_HAS_INVERT)  {
+		printf("  * SDSP_FEATURE_HAS_INVERT\n");
 	}
 }
 

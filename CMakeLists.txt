@@ -1,6 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(libsdsp C)
 
+INCLUDE(devices.cmake)
 ADD_SUBDIRECTORY(src)
 
 #ADD_CUSTOM_TARGET(examples SOURCES examples/CMakeLists.txt)

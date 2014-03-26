@@ -12,10 +12,10 @@ int main(void) {
 	
 	sdsp_dump(ctx);
 	
-	sdsp_init(ctx);
-	sdsp_clear(ctx);
+	sdsp_display_init(ctx);
+	//sdsp_clear(ctx);
 	
-	sdsp_test(ctx);
+	sdsp_display_test(ctx);
 	
 	sdsp_close(ctx);
 	sdsp_free(ctx);

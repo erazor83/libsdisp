@@ -24,8 +24,11 @@
 
 SDSP_BEGIN_DECLS
 
-#define SDSP_FEATURE_GRAPHIC    0x0001
-#define SDSP_FEATURE_MONOCHROME 0x0010
+#define SDSP_FEATURE_HAS_DETECT    0x0001
+#define SDSP_FEATURE_HAS_TEST      0x0002
+#define SDSP_FEATURE_GRAPHIC       0x0010
+#define SDSP_FEATURE_MONOCHROME    0x0020
+#define SDSP_FEATURE_HAS_INVERT    0x0030
 
 #define SDSP_DEBUG 1
 #define SDSP_NO_DEBUG 0
@@ -48,8 +51,8 @@ typedef struct _sdsp sdsp_t;
 
 
 /* sdsp core funcions */
-int8_t sdsp_init(sdsp_t*);
-void sdsp_test(sdsp_t*);
+int8_t sdsp_display_init(sdsp_t*);
+void sdsp_display_test(sdsp_t*);
 void sdsp_close(sdsp_t*);
 void sdsp_free(sdsp_t*);
 
