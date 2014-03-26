@@ -1,4 +1,4 @@
-libsdsp
+libsdisp
 ============
 ![Display/Crius](doc/img/crius.jpg "Display/Crius")
 
@@ -19,22 +19,22 @@ All you need is cmake and a gcc. Then simply create makefiles with cmake and fee
 
 
 <pre>
-git clone https://github.com/erazor83/libsdsp
-cd libsdsp
+git clone https://github.com/erazor83/libsdisp
+cd libsdisp
 cmake .
 make
 make install
 </pre>
 
 There are some options to enable different additional features:
-  * WITH_SHARED - build shared .so file (libsdsp_shared.so)
+  * WITH_SHARED - build shared .so file (libsdisp_shared.so)
   * WITH_EXAMPLES - build examples
 
 <pre>
 cmake -DWITH_SHARED=1 .
 </pre>
 
-There is even a libsdsp ebuild at http://wiki.erazor-zone.de/wiki:projects:linux:gentoo
+There is even a libsdisp ebuild at http://wiki.erazor-zone.de/wiki:projects:linux:gentoo
 
 license
 -------------------------

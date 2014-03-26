@@ -4,29 +4,29 @@
  * Dynamixel library - a fork from libmodbus (http://libmodbus.org)
  */
 
-#ifndef _SDSP_VERSION_H_
-#define _SDSP_VERSION_H_
+#ifndef _SDISP_VERSION_H_
+#define _SDISP_VERSION_H_
 
 /* The full version, like 1.2.3 */
-#define SDSP_VERSION						@LIBSDSP_VERSION@
+#define SDISP_VERSION						@LIBSDISP_VERSION@
 
 /* The full version, in string form (suited for string concatenation)
  */
-#define LIBSDSP_VERSION_STRING	"@LIBSDSP_VERSION@"
+#define LIBSDISP_VERSION_STRING	"@LIBSDISP_VERSION@"
 
 /* Numerically encoded version, like 0x010203 */
-#define LIBSDSP_VERSION_HEX			((LIBSDSP_MAJOR_VERSION << 24)	|	\
-																(LIBSDSP_MINOR_VERSION << 16)		|	\
-																(LIBSDSP_MICRO_VERSION << 8))
+#define LIBSDISP_VERSION_HEX			((LIBSDISP_MAJOR_VERSION << 24)	|	\
+																(LIBSDISP_MINOR_VERSION << 16)		|	\
+																(LIBSDISP_MICRO_VERSION << 8))
 
 /* Evaluates to True if the version is greater than @major, @minor and @micro
  */
-#define LIBSDSP_VERSION_CHECK(major,minor,micro)	\
-		(LIBSDSP_VERSION_MAJOR > (major) ||						\
-		(LIBSDSP_VERSION_MAJOR == (major) &&					\
-			LIBSDSP_VERSION_MINOR > (minor)) ||					\
-		(LIBSDSP_VERSION_MAJOR == (major) &&					\
-			LIBSDSP_VERSION_MINOR == (minor) &&					\
-			LIBSDSP_VERSION_MICRO >= (micro)))
+#define LIBSDISP_VERSION_CHECK(major,minor,micro)	\
+		(LIBSDISP_VERSION_MAJOR > (major) ||						\
+		(LIBSDISP_VERSION_MAJOR == (major) &&					\
+			LIBSDISP_VERSION_MINOR > (minor)) ||					\
+		(LIBSDISP_VERSION_MAJOR == (major) &&					\
+			LIBSDISP_VERSION_MINOR == (minor) &&					\
+			LIBSDISP_VERSION_MICRO >= (micro)))
 
-#endif /* _SDSP_VERSION_H_ */
+#endif /* _SDISP_VERSION_H_ */

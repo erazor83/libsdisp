@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-PROJECT(libsdsp C)
+PROJECT(libsdisp C)
 
 INCLUDE(devices.cmake)
 ADD_SUBDIRECTORY(src)

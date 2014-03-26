@@ -2,19 +2,19 @@
  * Copyright (C) 2013 Alexander Krause <alexander.krause@ed-solutions.de>
  * 
  */
-#ifndef _SDSP_SSD1306_H_
-#define _SDSP_SSD1306_H_
+#ifndef _SDISP_SSD1306_H_
+#define _SDISP_SSD1306_H_
 
-#include <sdsp.h>
+#include <sdisp.h>
 
-SDSP_BEGIN_DECLS
-typedef struct _sdsp_ssd1306 {
-} sdsp_ssd1306_t;
-
-
-sdsp_t* sdsp_new_ssd1306(void);
+SDISP_BEGIN_DECLS
+typedef struct _sdisp_ssd1306 {
+} sdisp_ssd1306_t;
 
 
-SDSP_END_DECLS
+sdisp_t* sdisp_new_ssd1306(void);
 
-#endif /* _SDSP_SSD1306_H_ */
+
+SDISP_END_DECLS
+
+#endif /* _SDISP_SSD1306_H_ */

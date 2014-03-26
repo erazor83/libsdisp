@@ -2,39 +2,39 @@
  * Copyright (C) 2013 Alexander Krause <alexander.krause@ed-solutions.de>
  * 
  */
-#ifndef _SDSP_H_
-#define _SDSP_H_
+#ifndef _SDISP_H_
+#define _SDISP_H_
 
 /* Add this for macros that defined unix flavor */
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
 #endif
 
-#include <sdsp_config.h>
+#include <sdisp_config.h>
 
 #ifdef  __cplusplus
-# define SDSP_BEGIN_DECLS  extern "C" {
-# define SDSP_END_DECLS    }
+# define SDISP_BEGIN_DECLS  extern "C" {
+# define SDISP_END_DECLS    }
 #else
-# define SDSP_BEGIN_DECLS
-# define SDSP_END_DECLS
+# define SDISP_BEGIN_DECLS
+# define SDISP_END_DECLS
 #endif
 
 #include <stdbool.h>
 
-SDSP_BEGIN_DECLS
+SDISP_BEGIN_DECLS
 
-#define SDSP_FEATURE_HAS_DETECT    0x0001
-#define SDSP_FEATURE_HAS_TEST      0x0002
-#define SDSP_FEATURE_GRAPHIC       0x0010
-#define SDSP_FEATURE_MONOCHROME    0x0020
-#define SDSP_FEATURE_HAS_INVERT    0x0030
+#define SDISP_FEATURE_HAS_DETECT    0x0001
+#define SDISP_FEATURE_HAS_TEST      0x0002
+#define SDISP_FEATURE_GRAPHIC       0x0010
+#define SDISP_FEATURE_MONOCHROME    0x0020
+#define SDISP_FEATURE_HAS_INVERT    0x0030
 
-#define SDSP_DEBUG 1
-#define SDSP_NO_DEBUG 0
+#define SDISP_DEBUG 1
+#define SDISP_NO_DEBUG 0
 
-/* Native libsdsp error codes */
-#define E_SDSP_BADCHECKSUM 	1
+/* Native libsdisp error codes */
+#define E_SDISP_BADCHECKSUM 	1
 
 /*
 typedef enum {
@@ -43,20 +43,20 @@ typedef enum {
 } display_type_t;
 */
 
-extern const unsigned int libsdsp_version_major;
-extern const unsigned int libsdsp_version_minor;
-extern const unsigned int libsdsp_version_micro;
+extern const unsigned int libsdisp_version_major;
+extern const unsigned int libsdisp_version_minor;
+extern const unsigned int libsdisp_version_micro;
 
-typedef struct _sdsp sdsp_t;
+typedef struct _sdisp sdisp_t;
 
 
-/* sdsp core funcions */
-int8_t sdsp_display_init(sdsp_t*);
-int8_t sdsp_display_test(sdsp_t*);
+/* sdisp core funcions */
+int8_t sdisp_display_init(sdisp_t*);
+int8_t sdisp_display_test(sdisp_t*);
 
-void sdsp_close(sdsp_t*);
-void sdsp_free(sdsp_t*);
+void sdisp_close(sdisp_t*);
+void sdisp_free(sdisp_t*);
 
-SDSP_END_DECLS
+SDISP_END_DECLS
 
-#endif  /* _SDSP_H_ */
+#endif  /* _SDISP_H_ */

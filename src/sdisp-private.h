@@ -3,8 +3,8 @@
  */
 
 
-#ifndef _SDSP_PRIVATE_H_
-#define _SDSP_PRIVATE_H_
+#ifndef _SDISP_PRIVATE_H_
+#define _SDISP_PRIVATE_H_
 
 #ifndef _MSC_VER
 # include <stdint.h>
@@ -16,46 +16,46 @@ typedef int ssize_t;
 #endif
 #include <sys/types.h>
 
-#include "sdsp.h"
+#include "sdisp.h"
 
-typedef struct _sdsp_display_calls {
+typedef struct _sdisp_display_calls {
 		
-	int (*init) (sdsp_t *ctx);
-	int (*detect) (sdsp_t *ctx);
-	int (*invert) (sdsp_t *ctx);
-	int (*test) (sdsp_t *ctx);
+	int (*init) (sdisp_t *ctx);
+	int (*detect) (sdisp_t *ctx);
+	int (*invert) (sdisp_t *ctx);
+	int (*test) (sdisp_t *ctx);
 	
-	int (*clear) (sdsp_t *ctx);
-	int (*set_pixel) (sdsp_t *ctx);
+	int (*clear) (sdisp_t *ctx);
+	int (*set_pixel) (sdisp_t *ctx);
 	
-	int (*buffer_draw) (sdsp_t *ctx);
-	int (*buffer_clear) (sdsp_t *ctx);
+	int (*buffer_draw) (sdisp_t *ctx);
+	int (*buffer_clear) (sdisp_t *ctx);
 
 	
-} sdsp_display_calls_t;
+} sdisp_display_calls_t;
 
-struct _sdsp {
+struct _sdisp {
 	uint8_t width;
 	uint8_t height;
 	const char* type_name;
 	uint16_t features;
 
 
-	int8_t (*free) (sdsp_t *ctx);
+	int8_t (*free) (sdisp_t *ctx);
 	/* Socket or file descriptor */
 	bool debug;
 	void *display_data;
 	void *display_calls;
 };
 
-//void _sdsp_init_common(sdsp_t *ctx);
-void sdsp_free(sdsp_t *ctx);
+//void _sdisp_init_common(sdisp_t *ctx);
+void sdisp_free(sdisp_t *ctx);
 
-void _sdsp_print_debug(sdsp_t *ctx, const char *txt);
+void _sdisp_print_debug(sdisp_t *ctx, const char *txt);
 
 #ifndef HAVE_STRLCPY
 size_t strlcpy(char *dest, const char *src, size_t dest_size);
 #endif
 
 
-#endif  /* _SDSP_PRIVATE_H_ */
+#endif  /* _SDISP_PRIVATE_H_ */

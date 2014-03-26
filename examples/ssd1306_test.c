@@ -1,20 +1,20 @@
 #include <stdio.h>
 
-#include "sdsp.h"
+#include "sdisp.h"
 
 
 int main(void) {
-	sdsp_t *ctx;
+	sdisp_t *ctx;
 
-	ctx = sdsp_new_ssd1306();
+	ctx = sdisp_new_ssd1306();
 
-	sdsp_set_debug(ctx,SDSP_DEBUG);
+	sdisp_set_debug(ctx,SDISP_DEBUG);
 	
-	sdsp_init(ctx);
-	sdsp_clear(ctx);
+	sdisp_init(ctx);
+	sdisp_clear(ctx);
 	
-	sdsp_test(ctx);
+	sdisp_test(ctx);
 	
-	sdsp_close(ctx);
-	sdsp_free(ctx);
+	sdisp_close(ctx);
+	sdisp_free(ctx);
 }

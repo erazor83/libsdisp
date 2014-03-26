@@ -12,15 +12,15 @@
 
 #include "compat.c"
 
-#include "sdsp.h"
-#include "sdsp-private.h"
+#include "sdisp.h"
+#include "sdisp-private.h"
 
-int8_t sdsp_display_init(sdsp_t *ctx){
-	sdsp_display_calls_t* calls;
+int8_t sdisp_display_init(sdisp_t *ctx){
+	sdisp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
 			(ctx->display_calls != NULL)) {
-		calls=(sdsp_display_calls_t*)(ctx->display_calls);
+		calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	}
 	if (calls->init != NULL) {
 		return calls->init(ctx);
@@ -28,12 +28,12 @@ int8_t sdsp_display_init(sdsp_t *ctx){
 	return -1;
 }
 
-int8_t sdsp_display_test(sdsp_t *ctx){
-	sdsp_display_calls_t* calls;
+int8_t sdisp_display_test(sdisp_t *ctx){
+	sdisp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
 			(ctx->display_calls != NULL)) {
-		calls=(sdsp_display_calls_t*)(ctx->display_calls);
+		calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	}
 	if (calls->test != NULL) {
 		return calls->test(ctx);
@@ -41,12 +41,12 @@ int8_t sdsp_display_test(sdsp_t *ctx){
 	return -1;
 }
 
-int8_t sdsp_display_clear(sdsp_t *ctx){
-	sdsp_display_calls_t* calls;
+int8_t sdisp_display_clear(sdisp_t *ctx){
+	sdisp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
 			(ctx->display_calls != NULL)) {
-		calls=(sdsp_display_calls_t*)(ctx->display_calls);
+		calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	}
 	if (calls->test != NULL) {
 		return calls->clear(ctx);
@@ -55,31 +55,31 @@ int8_t sdsp_display_clear(sdsp_t *ctx){
 }
 
 
-void sdsp_dump(sdsp_t* ctx) {
+void sdisp_dump(sdisp_t* ctx) {
 	printf("name:     %s\n",ctx->type_name);
 	printf("width:    %i\n",ctx->width);
 	printf("height:   %i\n",ctx->height);
 	printf("features: 0x%04x\n",ctx->features);
 	
 	
-	if (ctx->features & SDSP_FEATURE_HAS_DETECT)  {
-		printf("  * SDSP_FEATURE_HAS_DETECT\n");
+	if (ctx->features & SDISP_FEATURE_HAS_DETECT)  {
+		printf("  * SDISP_FEATURE_HAS_DETECT\n");
 	}
-	if (ctx->features & SDSP_FEATURE_HAS_TEST)  {
-		printf("  * SDSP_FEATURE_HAS_TEST\n");
+	if (ctx->features & SDISP_FEATURE_HAS_TEST)  {
+		printf("  * SDISP_FEATURE_HAS_TEST\n");
 	}
-	if (ctx->features & SDSP_FEATURE_GRAPHIC)  {
-		printf("  * SDSP_FEATURE_GRAPHIC\n");
+	if (ctx->features & SDISP_FEATURE_GRAPHIC)  {
+		printf("  * SDISP_FEATURE_GRAPHIC\n");
 	}
-	if (ctx->features & SDSP_FEATURE_MONOCHROME)  {
-		printf("  * SDSP_FEATURE_MONOCHROME\n");
+	if (ctx->features & SDISP_FEATURE_MONOCHROME)  {
+		printf("  * SDISP_FEATURE_MONOCHROME\n");
 	}
-	if (ctx->features & SDSP_FEATURE_HAS_INVERT)  {
-		printf("  * SDSP_FEATURE_HAS_INVERT\n");
+	if (ctx->features & SDISP_FEATURE_HAS_INVERT)  {
+		printf("  * SDISP_FEATURE_HAS_INVERT\n");
 	}
 }
 
-void sdsp_close(sdsp_t *ctx) {
+void sdisp_close(sdisp_t *ctx) {
 	if (ctx == NULL) {
 		return;
 	}
@@ -87,7 +87,7 @@ void sdsp_close(sdsp_t *ctx) {
 	//ctx->display_data->close(ctx);
 }
 
-void sdsp_free(sdsp_t *ctx) {
+void sdisp_free(sdisp_t *ctx) {
 	if (ctx == NULL) {
 		return;
 	}
@@ -102,7 +102,7 @@ void sdsp_free(sdsp_t *ctx) {
 	free(ctx);
 }
 
-void sdsp_set_debug(sdsp_t *ctx, bool value) {
+void sdisp_set_debug(sdisp_t *ctx, bool value) {
 	ctx->debug = value;
 }
 
