@@ -69,28 +69,22 @@ int8_t sdisp_display__buffer_clear(sdisp_t *ctx){
 }
 
 
+#define SDISP_CHECK_FEATURE_PRINT(feature,feature_str)					\
+	if (ctx->features & feature)  {																\
+		printf("  * %s\n",feature_str);									\
+	}
+
 void sdisp_dump(sdisp_t* ctx) {
 	printf("name:     %s\n",ctx->type_name);
 	printf("width:    %i\n",ctx->width);
 	printf("height:   %i\n",ctx->height);
 	printf("features: 0x%04x\n",ctx->features);
 	
-	
-	if (ctx->features & SDISP_FEATURE_HAS_DETECT)  {
-		printf("  * SDISP_FEATURE_HAS_DETECT\n");
-	}
-	if (ctx->features & SDISP_FEATURE_HAS_TEST)  {
-		printf("  * SDISP_FEATURE_HAS_TEST\n");
-	}
-	if (ctx->features & SDISP_FEATURE_GRAPHIC)  {
-		printf("  * SDISP_FEATURE_GRAPHIC\n");
-	}
-	if (ctx->features & SDISP_FEATURE_MONOCHROME)  {
-		printf("  * SDISP_FEATURE_MONOCHROME\n");
-	}
-	if (ctx->features & SDISP_FEATURE_HAS_INVERT)  {
-		printf("  * SDISP_FEATURE_HAS_INVERT\n");
-	}
+	SDISP_CHECK_FEATURE_PRINT(SDISP_FEATURE_HAS_DETECT,"SDISP_FEATURE_HAS_DETECT");
+	SDISP_CHECK_FEATURE_PRINT(SDISP_FEATURE_HAS_TEST,"SDISP_FEATURE_HAS_TEST");
+	SDISP_CHECK_FEATURE_PRINT(SDISP_FEATURE_GRAPHIC,"SDISP_FEATURE_GRAPHIC");
+	SDISP_CHECK_FEATURE_PRINT(SDISP_FEATURE_MONOCHROME,"SDISP_FEATURE_MONOCHROME");
+	SDISP_CHECK_FEATURE_PRINT(SDISP_FEATURE_HAS_INVERT,"SDISP_FEATURE_HAS_INVERT");
 }
 
 void sdisp_close(sdisp_t *ctx) {
