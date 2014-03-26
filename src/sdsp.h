@@ -52,10 +52,10 @@ typedef struct _sdsp sdsp_t;
 
 /* sdsp core funcions */
 int8_t sdsp_display_init(sdsp_t*);
-void sdsp_display_test(sdsp_t*);
+int8_t sdsp_display_test(sdsp_t*);
+
 void sdsp_close(sdsp_t*);
 void sdsp_free(sdsp_t*);
-
 
 SDSP_END_DECLS
 

@@ -18,36 +18,19 @@ typedef int ssize_t;
 
 #include "sdsp.h"
 
-SDSP_BEGIN_DECLS
-
-
-typedef enum {
-	_SDSP_BACKEND_TYPE_RTU=0
-} sdsp_bakend_type_t;
-
-
-typedef struct _sdsp_display {
-		
-	int8_t (*init) (sdsp_t *ctx);
-	int8_t (*detect) (sdsp_t *ctx);
-	int8_t (*invert) (sdsp_t *ctx);
-	int8_t (*update) (sdsp_t *ctx);
-	int8_t (*clear) (sdsp_t *ctx);
-	int8_t (*set_pixel) (sdsp_t *ctx);
-	
-} sdsp_backend_t;
-
 typedef struct _sdsp_display_calls {
 		
-	int8_t (*init) (sdsp_t *ctx);
-	int8_t (*detect) (sdsp_t *ctx);
-	int8_t (*invert) (sdsp_t *ctx);
-	int8_t (*test) (sdsp_t *ctx);
+	int (*init) (sdsp_t *ctx);
+	int (*detect) (sdsp_t *ctx);
+	int (*invert) (sdsp_t *ctx);
+	int (*test) (sdsp_t *ctx);
 	
-	int8_t (*update) (sdsp_t *ctx);
+	int (*clear) (sdsp_t *ctx);
+	int (*set_pixel) (sdsp_t *ctx);
+	
+	int (*buffer_draw) (sdsp_t *ctx);
+	int (*buffer_clear) (sdsp_t *ctx);
 
-	int8_t (*clear) (sdsp_t *ctx);
-	int8_t (*set_pixel) (sdsp_t *ctx);
 	
 } sdsp_display_calls_t;
 
@@ -57,6 +40,8 @@ struct _sdsp {
 	const char* type_name;
 	uint16_t features;
 
+
+	int8_t (*free) (sdsp_t *ctx);
 	/* Socket or file descriptor */
 	bool debug;
 	void *display_data;
@@ -72,6 +57,5 @@ void _sdsp_print_debug(sdsp_t *ctx, const char *txt);
 size_t strlcpy(char *dest, const char *src, size_t dest_size);
 #endif
 
-SDSP_END_DECLS
 
 #endif  /* _SDSP_PRIVATE_H_ */

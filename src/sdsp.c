@@ -23,12 +23,12 @@ int8_t sdsp_display_init(sdsp_t *ctx){
 		calls=(sdsp_display_calls_t*)(ctx->display_calls);
 	}
 	if (calls->init != NULL) {
-		return (void*)(calls->init)(ctx);
+		return calls->init(ctx);
 	}
 	return -1;
 }
 
-void sdsp_display_test(sdsp_t *ctx){
+int8_t sdsp_display_test(sdsp_t *ctx){
 	sdsp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
@@ -36,12 +36,12 @@ void sdsp_display_test(sdsp_t *ctx){
 		calls=(sdsp_display_calls_t*)(ctx->display_calls);
 	}
 	if (calls->test != NULL) {
-		return (void*)(calls->test)(ctx);
+		return calls->test(ctx);
 	}
 	return -1;
 }
 
-void sdsp_display_clear(sdsp_t *ctx){
+int8_t sdsp_display_clear(sdsp_t *ctx){
 	sdsp_display_calls_t* calls;
 	
 	if ((ctx != NULL) && 
@@ -49,7 +49,7 @@ void sdsp_display_clear(sdsp_t *ctx){
 		calls=(sdsp_display_calls_t*)(ctx->display_calls);
 	}
 	if (calls->test != NULL) {
-		return (void*)(calls->clear)(ctx);
+		return calls->clear(ctx);
 	}
 	return -1;
 }
@@ -92,6 +92,10 @@ void sdsp_free(sdsp_t *ctx) {
 		return;
 	}
 
+	if (ctx->free != NULL) {
+		ctx->free(ctx);
+	}
+	
 	if (ctx->display_data != NULL) {
 		free(ctx->display_data);
 	}
