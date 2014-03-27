@@ -10,10 +10,10 @@ int main(void) {
 
 	sdisp_set_debug(ctx,SDISP_DEBUG);
 	
-	sdisp_init(ctx);
-	sdisp_clear(ctx);
+	sdisp_display__init(ctx);
+	sdisp_display__clear(ctx);
 	
-	sdisp_test(ctx);
+	sdisp_display__test(ctx);
 	
 	sdisp_close(ctx);
 	sdisp_free(ctx);

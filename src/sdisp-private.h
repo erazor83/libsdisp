@@ -25,7 +25,7 @@ typedef struct _sdisp_display_calls {
 	int (*clear) (sdisp_t *ctx);
 	
 	int (*detect) (sdisp_t *ctx);
-	int (*invert) (sdisp_t *ctx);
+	int (*invert) (sdisp_t *ctx,uint8_t do_invert);
 	int (*test) (sdisp_t *ctx);
 	
 	int (*buffer_set_pixel_mc) (sdisp_t *ctx,uint8_t x,uint8_t y,uint8_t color);

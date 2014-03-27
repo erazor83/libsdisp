@@ -11,6 +11,7 @@
 
 #include "sdisp-private.h"
 #include "sdisp-crius.h"
+#include "sdisp-i2c_common.h"
 
 #include "sdisp-crius-test_data.c"
 
@@ -52,25 +53,20 @@ const uint8_t sdisp_crius__init_cmds[] = {
 
 sdisp_t* sdisp_new_crius(uint8_t bus_nr) {
 	sdisp_t *ctx;
-	ctx = (sdisp_t *) malloc(sizeof(sdisp_t));
+	ctx = sdisp_new_i2c_common(bus_nr,SDISP_CRIUS_I2C_ADDRESS);
+
 	ctx->features			=SDISP_CRIUS_FEATURES;
 	ctx->width				=SDISP_CRIUS_WIDTH;
 	ctx->height				=SDISP_CRIUS_HEIGHT;
 	ctx->type_name		=SDISP_CRIUS_NAME;
-	ctx->free					=(void*)&sdisp_crius__free;
+
 	
-	
-	sdisp_display_crius__data_t* dsp_data;
-	dsp_data=malloc(sizeof(sdisp_display_crius__data_t));
-	dsp_data->bus_nr=bus_nr;
-	dsp_data->i2c_bus=NULL;
-	dsp_data->i2c_dev=NULL;
-	
+	sdisp_display_common_i2c__data_t* dsp_data;
+	dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
 	dsp_data->buffer=malloc(SDISP_CRIUS_WIDTH * SDISP_CRIUS_HEIGHT / 8);
-	ctx->display_data	=dsp_data;
 	
 	sdisp_display_calls_t *calls;
-	calls=malloc(sizeof(sdisp_display_calls_t));
+	calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	calls->init			=(void*)&sdisp_crius__init;
 	calls->mov_to		=(void*)&sdisp_crius__mov_to;
 	calls->clear		=(void*)&sdisp_crius__clear;
@@ -96,78 +92,17 @@ int sdisp_crius__cmds(i2c_dev_t* i2c_dev,uint8_t* cmds,uint8_t len) {
 	return i2c_xfer(i2c_dev,len,cmds,0,NULL);
 }
 
-int sdisp_crius__open(sdisp_t* ctx) {
-	char path[100];
-	int ret;
-	sdisp_display_crius__data_t* dsp_data=((sdisp_display_crius__data_t*)(ctx->display_data));
-	_sdisp_print_debug(ctx,"Trying to open I2C-Bus...");
-
-	sprintf(
-		path,
-		"%s%i",
-		SDISP_CRIUS_DEV_PATH_PREFIX,
-		dsp_data->bus_nr
-	);
-	_sdisp_print_debug(ctx,path);
-	dsp_data->i2c_bus=malloc(sizeof(i2c_bus_t));
-	ret=i2c_bus_open(
-		dsp_data->i2c_bus,
-		path
-	);
-	if (ret!=0) {
-		sprintf(
-			path,
-			"Error %i while opening bus.",
-			ret
-		);
-		_sdisp_print_debug(ctx,path);
-		return ret;
-	}
-	_sdisp_print_debug(ctx,"Trying to init I2C-Device...");
-	dsp_data->i2c_dev=malloc(sizeof(i2c_dev_t));
-
-	i2c_dev_init(
-		dsp_data->i2c_dev,
-		dsp_data->i2c_bus,
-		SDISP_CRIUS_I2C_ADDRESS
-	);
-	
-	return ret;
-}
-int sdisp_crius__close(sdisp_t* ctx) {
-	sdisp_display_crius__data_t* dsp_data=((sdisp_display_crius__data_t*)(ctx->display_data));
-	if (dsp_data->i2c_bus) {
-		return i2c_bus_close(dsp_data->i2c_bus);
-	}
-	return 0;
-}
-
-int sdisp_crius__free(sdisp_t* ctx) {
-	_sdisp_print_debug(ctx,"destroying ctx->display_data->buffer...");
-	sdisp_display_crius__data_t* dsp_data=ctx->display_data;
-	if (dsp_data->i2c_bus != NULL) {
-		free(dsp_data->i2c_bus);
-	}
-	if (dsp_data->i2c_dev != NULL) {
-		free(dsp_data->i2c_dev);
-	}
-	if (dsp_data->buffer != NULL) {
-		free(dsp_data->buffer);
-	}
-	return 0;
-}
-
 int sdisp_crius__init(sdisp_t* ctx) {
 	int ret;
 	//checks if the display exists
 	_sdisp_print_debug(ctx,"display->init()...");
 	
-	ret=sdisp_crius__open(ctx);
+	ret=sdisp_i2c_common__open(ctx);
 	if (ret!=0) {
 		return ret;
 	}
 	
-	sdisp_display_crius__data_t* dsp_data=ctx->display_data;
+	sdisp_display_common_i2c__data_t* dsp_data=ctx->display_data;
 	for (uint8_t i=0; i<sizeof(sdisp_crius__init_cmds);i++) {
 		ret=sdisp_crius__cmd(dsp_data->i2c_dev,sdisp_crius__init_cmds[i]);
 		if (ret!=0) {
@@ -190,7 +125,7 @@ int sdisp_crius__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
 	};
 	
 	return sdisp_crius__cmds(
-		((sdisp_display_crius__data_t*)(ctx->display_data))->i2c_dev,
+		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev,
 		cmds,
 		5
 	);
@@ -202,7 +137,7 @@ int sdisp_crius__draw_byte(sdisp_t* ctx,uint8_t data) {
 	buffer[1]=data;
 	
 	return i2c_xfer(
-		((sdisp_display_crius__data_t*)(ctx->display_data))->i2c_dev,
+		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev,
 		sizeof(buffer),
 		buffer,
 		0,
@@ -228,8 +163,9 @@ int sdisp_crius__detect(sdisp_t* ctx) {
 	return 0;
 }
 
-int sdisp_crius__invert(sdisp_t* ctx) {
+int sdisp_crius__invert(sdisp_t* ctx, uint8_t do_invert) {
 	//checks if the display exists
+	//TODO
 	_sdisp_print_debug(ctx,"display->invert()...");
 	return 0;
 }
@@ -246,9 +182,8 @@ int sdisp_crius__test(sdisp_t* ctx) {
 
 int sdisp_crius__buffer_clear(sdisp_t* ctx) {
 	_sdisp_print_debug(ctx,"display->buffer_clear()...");
-	sdisp_crius__close(ctx);
 	memset(
-		((sdisp_display_crius__data_t*)(ctx->display_data))->buffer,
+		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->buffer,
 		0,
 		(SDISP_CRIUS_WIDTH * SDISP_CRIUS_HEIGHT / 8)
 	);
