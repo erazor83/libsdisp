@@ -44,7 +44,7 @@ IF (WITH_SHARED)
 ENDIF(WITH_SHARED)
 
 
-INSTALL (FILES sdisp.h sdisp-version.h ${CMAKE_CURRENT_BINARY_DIR}/sdisp_config.h
+INSTALL (FILES sdisp.h sdisp_version.h ${CMAKE_CURRENT_BINARY_DIR}/sdisp_config.h
 	DESTINATION include
 )
 INSTALL (TARGETS sdisp
