@@ -17,38 +17,36 @@
 #include "buffer.h"
 
 const uint8_t sdisp_ssd1327__init_cmds[] = {
-	0xAE,
-	0x00,
-	0x10,
-	0x40,
-	0x81,
-	0xCF,
-	0xA1,
-	0xA6,
-	0xA8,
-	0x3F,
-	
-	0xD3,
-	0x00,
-	
-	0xD5,
-	0x80,
-	
-	0xD9,
-	0xF1,
-	
-	0xDA,
+	0xFD,
 	0x12,
-	
-	0xDB,
-	0x40,
-	
-	0x8D,
-	0x14,
-	
+	0xAE,
+	0xA8,
+	0x5F,
 	0xA1,
-	0xC8,
-	
+	0x00,
+	0xA2,
+	0x60,
+	0xA0,
+	0x46,
+	0xAB,
+	0x01,
+	0x81,
+	0x53,
+	0xB1,
+	0x51,
+	0xB3,
+	0x01,
+	0xB9,
+	0xBC,
+	0x08,
+	0xBE,
+	0x07,
+	0xB6,
+	0x01,
+	0xD5,
+	0x62,
+	0xA4,
+	0x2E,
 	0xAF
 };
 
@@ -56,13 +54,16 @@ sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
 	sdisp_t *ctx;
 	ctx = sdisp_new_i2c_common(bus_nr,SDISP_SSD1327Z_I2C_ADDRESS);
 
-	ctx->features			=SDISP_SSD1327Z_FEATURES;
-	ctx->width				=SDISP_SSD1327Z_WIDTH;
-	ctx->height				=SDISP_SSD1327Z_HEIGHT;
-	ctx->type_name		=SDISP_SSD1327Z_NAME;
+	ctx->features			=SDISP_SSD1327_FEATURES;
+	ctx->width				=SDISP_SSD1327_WIDTH;
+	ctx->height				=SDISP_SSD1327_HEIGHT;
+	ctx->type_name		=SDISP_SSD1327_NAME;
 
 	sdisp_i2c_common__malloc(ctx);
-
+	
+	sdisp_display_common_i2c__data_t* dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
+	dsp_data->_draw_byte	=(void*)&ssd1327__draw_byte;
+	
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	calls->init			=(void*)&sdisp_ssd1327__init;
@@ -72,6 +73,12 @@ sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
 	calls->test			=(void*)&sdisp_ssd1327__test;
 	calls->invert		=(void*)&ssd1327__invert;
 	calls->detect		=(void*)&sdisp_i2c_common__detect;
+	
+	calls->buffer_fill		=(void*)&sdisp_crius__buffer_fill;
+	
+	calls->buffer_clear		=(void*)&buffer__clear_i2c;
+	calls->buffer_draw		=(void*)&buffer__draw_i2c_wmove;
+	calls->buffer_test		=(void*)&sdisp_crius__buffer_test;
 	
 	ctx->display_calls=(void*)calls;
 	return ctx;
