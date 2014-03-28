@@ -16,6 +16,8 @@
 #include "ssd1327.h"
 #include "buffer.h"
 
+#include "sdisp-ssd1327-test_data.c"
+
 const uint8_t sdisp_ssd1327__init_cmds[] = {
 	0xFD,
 	0x12,
@@ -52,7 +54,7 @@ const uint8_t sdisp_ssd1327__init_cmds[] = {
 
 sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
 	sdisp_t *ctx;
-	ctx = sdisp_new_i2c_common(bus_nr,SDISP_SSD1327Z_I2C_ADDRESS);
+	ctx = sdisp_new_i2c_common(bus_nr,SDISP_SSD1327_I2C_ADDRESS);
 
 	ctx->features			=SDISP_SSD1327_FEATURES;
 	ctx->width				=SDISP_SSD1327_WIDTH;
@@ -89,24 +91,24 @@ int sdisp_ssd1327__init(sdisp_t* ctx) {
 }
 int sdisp_ssd1327__test(sdisp_t* ctx) {
 	_sdisp_print_debug(ctx,"display->test()...");
-//return ssd1327__fill_display(ctx,sdisp_crius__test_data);
-	return -1;
+	return ssd1327__fill_display(ctx,sdisp_ssd1327__test_data);
 }
 
 int sdisp_ssd1327__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
 	uint8_t cmds[]={
-		0xB0|y,
-		0x80,
-		0x00|((8*x)&0x0F),
-		0x80,
-		0x10|(((8*x)>>4)&0x0F),
-		0x00 /*spare for move*/
+		0x15,
+		0x08|(x*4),
+		0x37,
+		0x75,
+		0x00|(y*8),
+		0x07|(y*8),
+		0 /* spare for move */
 	};
 	
 	return ssd1327__cmds(
 		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev,
 		cmds,
-		5
+		6
 	);
 }
 

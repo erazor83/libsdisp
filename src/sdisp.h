@@ -11,7 +11,6 @@
 #endif
 
 #include <stdint.h>
-#include <sdisp_config.h>
 
 #ifdef  __cplusplus
 # define SDISP_BEGIN_DECLS  extern "C" {
@@ -51,6 +50,7 @@ extern const unsigned int libsdisp_version_micro;
 
 typedef struct _sdisp sdisp_t;
 
+#include <sdisp_config.h>
 
 /* sdisp core funcions */
 int8_t sdisp_display__init(sdisp_t*);
