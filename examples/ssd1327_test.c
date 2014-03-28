@@ -7,7 +7,7 @@
 int main(void) {
 	sdisp_t *ctx;
 
-	ctx = sdisp_new_ssd1306(I2C_BUS);
+	ctx = sdisp_new_ssd1327(I2C_BUS);
 
 	sdisp_set_debug(ctx,SDISP_DEBUG);
 	

@@ -32,8 +32,9 @@ typedef struct _sdisp_display_calls {
 	
 	int (*buffer_draw) (sdisp_t *ctx);
 	int (*buffer_clear) (sdisp_t *ctx);
+	int (*buffer_test) (sdisp_t *ctx);
 
-	
+	int (*buffer_fill) (sdisp_t *ctx,uint8_t start, uint8_t len, uint8_t* data);
 } sdisp_display_calls_t;
 
 struct _sdisp {
@@ -41,8 +42,7 @@ struct _sdisp {
 	uint8_t height;
 	const char* type_name;
 	uint16_t features;
-
-
+	
 	int8_t (*free) (sdisp_t *ctx);
 	/* Socket or file descriptor */
 	bool debug;

@@ -15,7 +15,6 @@ sdisp_t* sdisp_new_i2c_common(uint8_t bus_nr,uint8_t dev_addr) {
 	ctx = (sdisp_t *) malloc(sizeof(sdisp_t));
 	ctx->free					=(void*)&sdisp_i2c_common__free;
 	
-	
 	sdisp_display_common_i2c__data_t* dsp_data;
 	dsp_data=malloc(sizeof(sdisp_display_common_i2c__data_t));
 	dsp_data->bus_nr=bus_nr;
@@ -29,6 +28,30 @@ sdisp_t* sdisp_new_i2c_common(uint8_t bus_nr,uint8_t dev_addr) {
 	calls=malloc(sizeof(sdisp_display_calls_t));
 	ctx->display_calls=(void*)calls;
 	return ctx;
+}
+
+int sdisp_i2c_common__malloc(sdisp_t* ctx) {
+	sdisp_display_common_i2c__data_t* dsp_data;
+	dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
+	dsp_data->buffer=malloc(ctx->width * ctx->height / 8);
+	if (dsp_data->buffer!=NULL) {
+		return 0;
+	} else {
+		return -1;
+	}
+}
+
+int sdisp_i2c_common__detect(sdisp_t* ctx) {
+	//checks if the display exists
+	_sdisp_print_debug(ctx,"display->detect()...");
+	i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
+	if (i2c_read(dev)==0) {
+		_sdisp_print_debug(ctx,"display found");
+		return 0;
+	} else {
+		_sdisp_print_debug(ctx,"display not found");
+		return -1;
+	}
 }
 
 

@@ -48,6 +48,10 @@ int8_t sdisp_display__test(sdisp_t *ctx){
 	SDISP_INTERFACE_CODE(test);
 }
 
+int8_t sdisp_display__detect(sdisp_t *ctx){
+	SDISP_INTERFACE_CODE(detect);
+}
+
 int8_t sdisp_display__clear(sdisp_t *ctx){
 	SDISP_INTERFACE_CODE(clear);
 }
@@ -60,6 +64,7 @@ int8_t sdisp_display__buffer_set_pixel_mc(sdisp_t *ctx,uint8_t x,uint8_t y,uint8
 	SDISP_INTERFACE_CODE_ARGS(buffer_set_pixel_mc,x,y,color);
 }
 
+
 int8_t sdisp_display__buffer_draw(sdisp_t *ctx){
 	SDISP_INTERFACE_CODE(buffer_draw);
 }
@@ -68,6 +73,9 @@ int8_t sdisp_display__buffer_clear(sdisp_t *ctx){
 	SDISP_INTERFACE_CODE(buffer_clear);
 }
 
+int8_t sdisp_display__buffer_test(sdisp_t *ctx){
+	SDISP_INTERFACE_CODE(buffer_test);
+}
 
 #define SDISP_CHECK_FEATURE_PRINT(feature,feature_str)					\
 	if (ctx->features & feature)  {																\

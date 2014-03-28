@@ -15,6 +15,9 @@
 
 #include "sdisp-crius-test_data.c"
 
+#include "ssd1327.h"
+#include "buffer.h"
+
 const uint8_t sdisp_crius__init_cmds[] = {
 	0xAE,
 	0x00,
@@ -60,58 +63,33 @@ sdisp_t* sdisp_new_crius(uint8_t bus_nr) {
 	ctx->height				=SDISP_CRIUS_HEIGHT;
 	ctx->type_name		=SDISP_CRIUS_NAME;
 
-	
-	sdisp_display_common_i2c__data_t* dsp_data;
-	dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
-	dsp_data->buffer=malloc(SDISP_CRIUS_WIDTH * SDISP_CRIUS_HEIGHT / 8);
+	sdisp_i2c_common__malloc(ctx);
+
+	sdisp_display_common_i2c__data_t* dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
+	dsp_data->_draw_byte	=(void*)&ssd1327__draw_byte;
 	
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	calls->init			=(void*)&sdisp_crius__init;
 	calls->mov_to		=(void*)&sdisp_crius__mov_to;
-	calls->clear		=(void*)&sdisp_crius__clear;
+	calls->clear		=(void*)&ssd1327__clear;
 	
 	calls->test			=(void*)&sdisp_crius__test;
-	calls->invert		=(void*)&sdisp_crius__invert;
-	calls->detect		=(void*)&sdisp_crius__detect;
+	calls->invert		=(void*)&ssd1327__invert;
+	calls->detect		=(void*)&sdisp_i2c_common__detect;
 	
+	calls->buffer_fill		=(void*)&sdisp_crius__buffer_fill;
+	
+	calls->buffer_clear		=(void*)&buffer__clear_i2c;
+	calls->buffer_draw		=(void*)&buffer__draw_i2c_wmove;
+	calls->buffer_test		=(void*)&sdisp_crius__buffer_test;
+
 	ctx->display_calls=(void*)calls;
 	return ctx;
 }
 
-int sdisp_crius__cmd(i2c_dev_t* i2c_dev,uint8_t cmd) {
-	uint8_t buffer[2];
-	buffer[0]=0x80;
-	buffer[1]=cmd;
-	return i2c_xfer(i2c_dev,sizeof(buffer),buffer,0,NULL);
-}
-
-int sdisp_crius__cmds(i2c_dev_t* i2c_dev,uint8_t* cmds,uint8_t len) {
-	memmove(cmds+1,cmds,len);
-	cmds[0]=0x80;
-	return i2c_xfer(i2c_dev,len,cmds,0,NULL);
-}
-
 int sdisp_crius__init(sdisp_t* ctx) {
-	int ret;
-	//checks if the display exists
-	_sdisp_print_debug(ctx,"display->init()...");
-	
-	ret=sdisp_i2c_common__open(ctx);
-	if (ret!=0) {
-		return ret;
-	}
-	
-	sdisp_display_common_i2c__data_t* dsp_data=ctx->display_data;
-	for (uint8_t i=0; i<sizeof(sdisp_crius__init_cmds);i++) {
-		ret=sdisp_crius__cmd(dsp_data->i2c_dev,sdisp_crius__init_cmds[i]);
-		if (ret!=0) {
-			_sdisp_print_debug(ctx,"error in i2c-transfer while init()");
-			return ret;
-		}
-	}
-	
-	return 0;
+	return ssd1327__init(ctx,sdisp_crius__init_cmds,sizeof(sdisp_crius__init_cmds));
 }
 
 int sdisp_crius__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
@@ -124,75 +102,38 @@ int sdisp_crius__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
 		0x00 /*spare for move*/
 	};
 	
-	return sdisp_crius__cmds(
+	return ssd1327__cmds(
 		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev,
 		cmds,
 		5
 	);
 }
 
-int sdisp_crius__draw_byte(sdisp_t* ctx,uint8_t data) {
-	uint8_t buffer[2];
-	buffer[0]=0x40;
-	buffer[1]=data;
-	
-	return i2c_xfer(
-		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev,
-		sizeof(buffer),
-		buffer,
-		0,
-		NULL
-	);
-}
 
-
-int sdisp_crius__clear(sdisp_t* ctx) {
-	_sdisp_print_debug(ctx,"display->clear()...");
-	for (uint8_t y=0;(y<SDISP_CRIUS_HEIGHT/8);y++) {
-		sdisp_crius__mov_to(ctx,0,y);
-		for (uint8_t x=0;(x<SDISP_CRIUS_WIDTH);x++) {
-			sdisp_crius__draw_byte(ctx,0);
-		}
-	}
-	return 0;
-}
-
-int sdisp_crius__detect(sdisp_t* ctx) {
-	//checks if the display exists
-	_sdisp_print_debug(ctx,"display->detect()...");
-	return 0;
-}
-
-int sdisp_crius__invert(sdisp_t* ctx, uint8_t do_invert) {
-	//checks if the display exists
-	//TODO
-	_sdisp_print_debug(ctx,"display->invert()...");
-	return 0;
-}
 int sdisp_crius__test(sdisp_t* ctx) {
 	_sdisp_print_debug(ctx,"display->test()...");
-	for (uint8_t y=0;y<(sizeof(sdisp_crius__test_data)/SDISP_CRIUS_WIDTH);y++) {
-		sdisp_crius__mov_to(ctx,0,y);
-		for (uint8_t x=0;(x<SDISP_CRIUS_WIDTH);x++) {
-			sdisp_crius__draw_byte(ctx,sdisp_crius__test_data[x+y*SDISP_CRIUS_WIDTH]);
-		}
-	}
-	return 0;
+	return ssd1327__fill_display(ctx,sdisp_crius__test_data);
 }
 
-int sdisp_crius__buffer_clear(sdisp_t* ctx) {
-	_sdisp_print_debug(ctx,"display->buffer_clear()...");
-	memset(
-		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->buffer,
-		0,
-		(SDISP_CRIUS_WIDTH * SDISP_CRIUS_HEIGHT / 8)
+int sdisp_crius__buffer_fill(sdisp_t* ctx,uint8_t start, uint8_t len, uint8_t* data) {
+	uint8_t* p=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->buffer;
+	return buffer__fill(
+		ctx,
+		p+start,
+		len,
+		(uint8_t*)data
 	);
-	return 0;
 }
-int sdisp_crius__buffer_draw(sdisp_t* ctx) {
-	_sdisp_print_debug(ctx,"display->buffer_draw()...");
-	//TODO
-	return 0;
+
+int sdisp_crius__buffer_test(sdisp_t* ctx) {
+	uint8_t* p=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->buffer;
+	return buffer__fill(
+		ctx,
+		p,
+		(ctx->width * ctx->height / 8),
+		(uint8_t*)sdisp_crius__test_data
+	);
 }
+
 
 #endif /* _SDISP_CRIUS_C_ */

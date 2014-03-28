@@ -57,6 +57,7 @@ int8_t sdisp_display__init(sdisp_t*);
 int8_t sdisp_display__test(sdisp_t*);
 int8_t sdisp_display__clear(sdisp_t*);
 int8_t sdisp_display__mov_to(sdisp_t*,uint8_t,uint8_t);
+int8_t sdisp_display__detect(sdisp_t *ctx);
 
 void sdisp_close(sdisp_t*);
 void sdisp_free(sdisp_t*);

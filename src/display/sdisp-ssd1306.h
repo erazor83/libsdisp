@@ -82,13 +82,9 @@ sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr);
 int sdisp_ssd1306__init(sdisp_t* ctx);
 int sdisp_ssd1306__free(sdisp_t* ctx);
 
-int sdisp_ssd1306__open_bus(sdisp_t* ctx);
-int sdisp_ssd1306__close_bus(sdisp_t* ctx);
-
 int sdisp_ssd1306__draw_byte(sdisp_t* ctx,uint8_t data);
 int sdisp_ssd1306__clear(sdisp_t* ctx);
 
-int sdisp_ssd1306__detect(sdisp_t* ctx);
 int sdisp_ssd1306__invert(sdisp_t* ctx,uint8_t do_invert);
 int sdisp_ssd1306__test(sdisp_t* ctx);
 

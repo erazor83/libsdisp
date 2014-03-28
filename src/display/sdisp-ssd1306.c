@@ -44,6 +44,8 @@
 #include "sdisp-ssd1306.h"
 #include "sdisp-i2c_common.h"
 
+#include "buffer.h"
+
 sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr) {
 	sdisp_t *ctx;
 	ctx = sdisp_new_i2c_common(bus_nr,SDISP_SSD1306_I2C_ADDRESS);
@@ -53,10 +55,8 @@ sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr) {
 	ctx->height				=SDISP_SSD1306_HEIGHT;
 	ctx->type_name		=SDISP_SSD1306_NAME;
 	
-	sdisp_display_common_i2c__data_t* dsp_data;
-	dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
-	dsp_data->buffer=malloc(SDISP_SSD1306_WIDTH * SDISP_SSD1306_HEIGHT / 8);
-	
+	sdisp_i2c_common__malloc(ctx);
+
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	calls->init			=(void*)&sdisp_ssd1306__init;
@@ -65,7 +65,8 @@ sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr) {
 	
 	calls->test			=(void*)&sdisp_ssd1306__test;
 	calls->invert		=(void*)&sdisp_ssd1306__invert;
-	calls->detect		=(void*)&sdisp_ssd1306__detect;
+	calls->detect		=(void*)&sdisp_i2c_common__detect;
+	
 	return ctx;
 }
 
@@ -131,7 +132,7 @@ int sdisp_ssd1306__init(sdisp_t* ctx) {
 
 int sdisp_ssd1306__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
 	//TODO
-	i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
+	//i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
 	return -1;
 }
 
@@ -152,13 +153,6 @@ int sdisp_ssd1306__clear(sdisp_t* ctx) {
 	return 0;
 }
 
-int sdisp_ssd1306__detect(sdisp_t* ctx) {
-	//checks if the display exists
-	//TODO
-	_sdisp_print_debug(ctx,"display->detect()...");
-	return -1;
-}
-
 int sdisp_ssd1306__invert(sdisp_t* ctx, uint8_t do_invert) {
 	//checks if the display exists
 	_sdisp_print_debug(ctx,"display->invert()...");
@@ -177,15 +171,6 @@ int sdisp_ssd1306__test(sdisp_t* ctx) {
 	return -1;
 }
 
-int sdisp_ssd1306__buffer_clear(sdisp_t* ctx) {
-	_sdisp_print_debug(ctx,"display->buffer_clear()...");
-	memset(
-		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->buffer,
-		0,
-		(SDISP_SSD1306_WIDTH * SDISP_SSD1306_HEIGHT / 8)
-	);
-	return 0;
-}
 int sdisp_ssd1306__buffer_draw(sdisp_t* ctx) {
 	_sdisp_print_debug(ctx,"display->buffer_draw()...");
 	//TODO

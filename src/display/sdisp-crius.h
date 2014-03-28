@@ -17,29 +17,17 @@
 #define SDISP_CRIUS_NAME						"Crius-oLED"
 
 #include "i2c/i2c.h"
-;
 
+#define SDISP_CRIUS_MODE_COMMAND				0x80
+#define SDISP_CRIUS_MODE_DATA						0x40
 
 sdisp_t* sdisp_new_crius(uint8_t bus_nr);
 int sdisp_crius__init(sdisp_t* ctx);
-int sdisp_crius__free(sdisp_t* ctx);
+int sdisp_crius__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y);
 
-int sdisp_crius__open_bus(sdisp_t* ctx);
-int sdisp_crius__close_bus(sdisp_t* ctx);
-
-int sdisp_crius__draw_byte(sdisp_t* ctx,uint8_t data);
-int sdisp_crius__clear(sdisp_t* ctx);
-
-int sdisp_crius__detect(sdisp_t* ctx);
-int sdisp_crius__invert(sdisp_t* ctx,uint8_t do_invert);
 int sdisp_crius__test(sdisp_t* ctx);
 
-int sdisp_crius__buffer_clear(sdisp_t* ctx);
-int sdisp_crius__buffer_draw(sdisp_t* ctx);
-
-int sdisp_crius__cmd(i2c_dev_t* i2c_dev,uint8_t cmd);
-int sdisp_crius__cmds(i2c_dev_t* i2c_dev,uint8_t* cmds,uint8_t len);
-
-int sdisp_crius__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y);
+int sdisp_crius__buffer_fill(sdisp_t* ctx,uint8_t start, uint8_t len, uint8_t* data);
+int sdisp_crius__buffer_test(sdisp_t* ctx);
 
 #endif /* _SDISP_CRIUS_H_ */

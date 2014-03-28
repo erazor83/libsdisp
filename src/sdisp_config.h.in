@@ -1,3 +1,20 @@
 #define LIBSDISP_VERSION_MAJOR              @LIBSDISP_VERSION_MAJOR@
 #define LIBSDISP_VERSION_MINOR              @LIBSDISP_VERSION_MINOR@
 #define LIBSDISP_VERSION_MICRO              @LIBSDISP_VERSION_MICRO@
+
+/*
+IF(WITH_DISPLAY_CRIUS)
+sdisp_t* sdisp_new_crius(uint8_t bus_nr);
+ENDIF()
+
+IF(WITH_DISPLAY_SSD1306)
+sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr);
+
+ENDIF()
+
+IF(WITH_DISPLAY_SSD1327)
+sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr);
+
+ENDIF()
+
+*/
