@@ -66,7 +66,7 @@ sdisp_t* sdisp_new_crius(uint8_t bus_nr) {
 	sdisp_i2c_common__malloc(ctx);
 
 	sdisp_display_common_i2c__data_t* dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
-	dsp_data->_draw_byte	=(void*)&ssd1327__draw_byte;
+	dsp_data->_draw_byte	=(void*)&ssd1327__write_byte;
 	
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
@@ -78,7 +78,7 @@ sdisp_t* sdisp_new_crius(uint8_t bus_nr) {
 	calls->invert		=(void*)&ssd1327__invert;
 	calls->detect		=(void*)&sdisp_i2c_common__detect;
 	
-	calls->buffer_fill		=(void*)&sdisp_crius__buffer_fill;
+	calls->_buffer_fill		=(void*)&sdisp_crius__buffer_fill;
 	
 	calls->buffer_clear		=(void*)&buffer__clear_i2c;
 	calls->buffer_draw		=(void*)&buffer__draw_i2c_wmove;

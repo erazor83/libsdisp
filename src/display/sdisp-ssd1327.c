@@ -49,7 +49,10 @@ const uint8_t sdisp_ssd1327__init_cmds[] = {
 	0x62,
 	0xA4,
 	0x2E,
-	0xAF
+	0xAF,
+	
+	0xA0,
+	0x46
 };
 
 sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
@@ -64,7 +67,7 @@ sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
 	sdisp_i2c_common__malloc(ctx);
 	
 	sdisp_display_common_i2c__data_t* dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
-	dsp_data->_draw_byte	=(void*)&ssd1327__draw_byte;
+	dsp_data->_draw_byte	=(void*)&ssd1327__write_byte;
 	
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
@@ -76,7 +79,7 @@ sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
 	calls->invert		=(void*)&ssd1327__invert;
 	calls->detect		=(void*)&sdisp_i2c_common__detect;
 	
-	calls->buffer_fill		=(void*)&sdisp_crius__buffer_fill;
+	calls->_buffer_fill		=(void*)&sdisp_crius__buffer_fill;
 	
 	calls->buffer_clear		=(void*)&buffer__clear_i2c;
 	calls->buffer_draw		=(void*)&buffer__draw_i2c_wmove;
@@ -95,21 +98,16 @@ int sdisp_ssd1327__test(sdisp_t* ctx) {
 }
 
 int sdisp_ssd1327__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
-	uint8_t cmds[]={
-		0x15,
-		0x08|(x*4),
-		0x37,
-		0x75,
-		0x00|(y*8),
-		0x07|(y*8),
-		0 /* spare for move */
-	};
+	i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
 	
-	return ssd1327__cmds(
-		((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev,
-		cmds,
-		6
-	);
+	ssd1327__cmd(dev,0x15);
+	ssd1327__cmd(dev,0x08|(x*4));
+	ssd1327__cmd(dev,0x37);
+	ssd1327__cmd(dev,0x75);
+	ssd1327__cmd(dev,0x00|(y*8));
+	ssd1327__cmd(dev,0x07|(y*8));
+	
+	return 0;
 }
 
 

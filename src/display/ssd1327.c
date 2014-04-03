@@ -47,7 +47,7 @@ int ssd1327__init(sdisp_t* ctx, const uint8_t* init_cmds, uint8_t len) {
 	return 0;
 }
 
-int ssd1327__draw_byte(sdisp_t* ctx,uint8_t data) {
+int ssd1327__write_byte(sdisp_t* ctx,uint8_t data) {
 	uint8_t buffer[2];
 	buffer[0]=SSD1327_MODE_DATA;
 	buffer[1]=data;
@@ -68,31 +68,40 @@ int ssd1327__invert(sdisp_t* ctx, uint8_t do_invert) {
 	return 0;
 }
 
-
 int ssd1327__clear(sdisp_t* ctx) {
+	uint16_t width=ctx->width;
+	uint8_t height=ctx->height;
+	
 	_sdisp_print_debug(ctx,"display->clear()...");
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	
-	for (uint8_t y=0;y<((ctx->height)/8);y++) {
+	if (ctx->features & SDISP_FEATURE_BOOLCHROME) {
+		width=width*8;
+	}
+	
+	for (uint8_t y=0;y<(height/8);y++) {
 		calls->mov_to(ctx,0,y);
-		for (uint8_t x=0;(x<(ctx->width));x++) {
-			ssd1327__draw_byte(ctx,0);
+		for (uint16_t x=0;x<width;x++) {
+			ssd1327__write_byte(ctx,0);
 		}
 	}
 	return 0;
 }
 
 int ssd1327__fill_display(sdisp_t* ctx, const uint8_t* data) {
-	uint8_t width=ctx->width;
+	uint16_t width=ctx->width;
 	uint8_t height=ctx->height;
 	sdisp_display_calls_t *calls;
 	calls=(sdisp_display_calls_t*)(ctx->display_calls);
 	
-	for (uint8_t y=0;y<(height/8);y++) {
+	if (ctx->features & SDISP_FEATURE_BOOLCHROME) {
+		width=width*8;
+	}
+	for (uint8_t y=0;y<height/8;y++) {
 		calls->mov_to(ctx,0,y);
-		for (uint8_t x=0;(x<width);x++) {
-			ssd1327__draw_byte(ctx,data[x+y*width]);
+		for (uint16_t x=0;x<width;x++) {
+			ssd1327__write_byte(ctx,data[x+y*width]);
 		}
 	}
 	return 0;

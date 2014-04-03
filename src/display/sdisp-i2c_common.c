@@ -33,7 +33,11 @@ sdisp_t* sdisp_new_i2c_common(uint8_t bus_nr,uint8_t dev_addr) {
 int sdisp_i2c_common__malloc(sdisp_t* ctx) {
 	sdisp_display_common_i2c__data_t* dsp_data;
 	dsp_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
-	dsp_data->buffer=malloc(ctx->width * ctx->height / 8);
+	if (ctx->features & SDISP_FEATURE_BOOLCHROME) {
+		dsp_data->buffer=malloc(ctx->width * ctx->height / 8);
+	} else {
+		dsp_data->buffer=malloc(ctx->width * ctx->height);
+	}
 	if (dsp_data->buffer!=NULL) {
 		return 0;
 	} else {

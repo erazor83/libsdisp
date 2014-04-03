@@ -28,7 +28,7 @@ int ssd1327__cmd(i2c_dev_t* i2c_dev,uint8_t cmd);
 int ssd1327__cmds(i2c_dev_t* i2c_dev,uint8_t* cmds,uint8_t len);
 
 int ssd1327__init(sdisp_t* ctx, const uint8_t* init_cmds, uint8_t len);
-int ssd1327__draw_byte(sdisp_t* ctx,uint8_t data);
+int ssd1327__write_byte(sdisp_t* ctx,uint8_t data);
 int ssd1327__clear(sdisp_t* ctx);
 
 int ssd1327__invert(sdisp_t* ctx, uint8_t do_invert);

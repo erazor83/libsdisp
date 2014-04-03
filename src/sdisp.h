@@ -10,7 +10,9 @@
 #include <sys/param.h>
 #endif
 
+#ifndef _SWIG
 #include <stdint.h>
+#endif
 
 #ifdef  __cplusplus
 # define SDISP_BEGIN_DECLS  extern "C" {
@@ -20,16 +22,21 @@
 # define SDISP_END_DECLS
 #endif
 
+#ifndef _SWIG
 #include <stdbool.h>
+#endif
 
 SDISP_BEGIN_DECLS
 
 #define SDISP_FEATURE_HAS_DETECT    (1<<0)
 #define SDISP_FEATURE_HAS_TEST      (1<<1)
+#define SDISP_FEATURE_HAS_INVERT    (1<<8)
 #define SDISP_FEATURE_HAS_FONT      (1<<3)
-#define SDISP_FEATURE_GRAPHIC       (1<<4)
-#define SDISP_FEATURE_MONOCHROME    (1<<5)
-#define SDISP_FEATURE_HAS_INVERT    (1<<6)
+#define SDISP_FEATURE_GRAPHIC       (1<<10)
+#define SDISP_FEATURE_BOOLCHROME    (1<<11)
+#define SDISP_FEATURE_MONOCHROME    (1<<12)
+#define SDISP_FEATURE_GREYSCALE     (1<<13)
+#define SDISP_FEATURE_COLOR         (1<<14)
 
 #define SDISP_DEBUG 1
 #define SDISP_NO_DEBUG 0

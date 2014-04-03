@@ -60,9 +60,10 @@ int8_t sdisp_display__mov_to(sdisp_t *ctx,uint8_t x,uint8_t y){
 	SDISP_INTERFACE_CODE_ARGS(mov_to, x, y);
 }
 
+/*
 int8_t sdisp_display__buffer_set_pixel_mc(sdisp_t *ctx,uint8_t x,uint8_t y,uint8_t color){
 	SDISP_INTERFACE_CODE_ARGS(buffer_set_pixel_mc,x,y,color);
-}
+}*/
 
 
 int8_t sdisp_display__buffer_draw(sdisp_t *ctx){

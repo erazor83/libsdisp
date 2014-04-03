@@ -28,13 +28,14 @@ typedef struct _sdisp_display_calls {
 	int (*invert) (sdisp_t *ctx,uint8_t do_invert);
 	int (*test) (sdisp_t *ctx);
 	
-	int (*buffer_set_pixel_mc) (sdisp_t *ctx,uint8_t x,uint8_t y,uint8_t color);
+	int (*buffer_set_pixel) (sdisp_t *ctx,uint8_t x,uint8_t y,uint8_t* data);
+	int (*buffer_set_pixels) (sdisp_t *ctx,uint8_t x,uint8_t y,uint8_t* data);
 	
 	int (*buffer_draw) (sdisp_t *ctx);
 	int (*buffer_clear) (sdisp_t *ctx);
 	int (*buffer_test) (sdisp_t *ctx);
 
-	int (*buffer_fill) (sdisp_t *ctx,uint8_t start, uint8_t len, uint8_t* data);
+	int (*_buffer_fill) (sdisp_t *ctx,uint8_t start, uint8_t len, uint8_t* data);
 } sdisp_display_calls_t;
 
 struct _sdisp {
