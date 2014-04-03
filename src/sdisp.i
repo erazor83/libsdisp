@@ -9,4 +9,6 @@
 #include "sdisp.h"
 %}
 
-%import "sdisp.h"
+%include "sdisp.h"
+
+
