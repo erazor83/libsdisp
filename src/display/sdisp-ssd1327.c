@@ -79,11 +79,14 @@ sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr) {
 	calls->invert		=(void*)&ssd1327__invert;
 	calls->detect		=(void*)&sdisp_i2c_common__detect;
 	
-	calls->_buffer_fill		=(void*)&sdisp_crius__buffer_fill;
+	//calls->_buffer_fill		=(void*)&sdisp_crius__buffer_fill;
 	
 	calls->buffer_clear		=(void*)&buffer__clear_i2c;
 	calls->buffer_draw		=(void*)&buffer__draw_i2c_wmove;
-	calls->buffer_test		=(void*)&sdisp_crius__buffer_test;
+	//calls->buffer_test		=(void*)&sdisp_ssd1327__buffer_test;
+
+	calls->buffer_set_pixel		=(void*)&buffer__set_pixel;
+	calls->buffer_set_pixels	=(void*)&buffer__set_pixels;
 	
 	ctx->display_calls=(void*)calls;
 	return ctx;

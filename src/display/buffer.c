@@ -60,3 +60,26 @@ int buffer__fill(sdisp_t* ctx,uint8_t* p,uint16_t len, uint8_t* data) {
 	}
 	return len;
 }
+
+int buffer__set_pixel(sdisp_t *ctx,uint16_t x,uint16_t y,uint8_t color) {
+	sdisp_display_common_i2c__data_t* display_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
+	uint8_t *p=display_data->buffer;
+	
+	p[x+y*ctx->width]=color;
+	
+	return 0;
+}
+
+int buffer__set_pixels(sdisp_t *ctx,uint16_t start,uint16_t len, uint8_t* color) {
+	sdisp_display_common_i2c__data_t* display_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
+	uint8_t *p=display_data->buffer;
+	
+	uint16_t pixel_count=(ctx->width*ctx->height);
+	if ((start+len)<pixel_count) {
+		memcpy(p+start,color,len);
+		return 0;
+	} else {
+		return -1;
+	}
+}
+

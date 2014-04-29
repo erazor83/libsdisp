@@ -83,6 +83,14 @@ int8_t sdisp_display__buffer_test(sdisp_t *ctx){
 	SDISP_INTERFACE_CODE(buffer_test);
 }
 
+int8_t sdisp_display__buffer_set_pixel(sdisp_t *ctx,uint16_t x, uint16_t y, uint8_t color){
+	SDISP_INTERFACE_CODE_ARGS(buffer_set_pixel,x,y,color);
+}
+
+int8_t sdisp_display__buffer_set_pixels(sdisp_t *ctx,uint16_t start, uint16_t len, uint8_t* color){
+	SDISP_INTERFACE_CODE_ARGS(buffer_set_pixels,start,len,color);
+}
+
 #define SDISP_CHECK_FEATURE_PRINT(feature,feature_str)					\
 	if (ctx->features & feature)  {																\
 		printf("  * %s\n",feature_str);									\
