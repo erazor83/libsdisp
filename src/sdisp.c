@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Alexander Krause <alexander.krause@ed-solutions.de>
+ * Copyright (C) 2014 Alexander Krause <alexander.krause@ed-solutions.de>
  */
 
 #include <stdio.h>
@@ -14,6 +14,11 @@
 
 #include "sdisp.h"
 #include "sdisp-private.h"
+
+/* Exported version */
+const unsigned int libsdisp_version_major = LIBSDISP_VERSION_MAJOR;
+const unsigned int libsdisp_version_minor = LIBSDISP_VERSION_MINOR;
+const unsigned int libsdisp_version_micro = LIBSDISP_VERSION_MICRO;
 
 //preprocessor-magic... hurray!!!
 #define STRUCT_ACCESS_OP(name)				calls->name
