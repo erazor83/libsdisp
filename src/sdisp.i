@@ -9,6 +9,7 @@
 #include "sdisp.h"
 %}
 
+%include "sdisp_config.h"
 %include "sdisp.h"
 
 

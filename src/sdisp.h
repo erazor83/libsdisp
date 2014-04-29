@@ -69,6 +69,15 @@ int8_t sdisp_display__detect(sdisp_t *ctx);
 void sdisp_close(sdisp_t*);
 void sdisp_free(sdisp_t*);
 
+
+int8_t sdisp_display__buffer_draw(sdisp_t *ctx);
+
+int8_t sdisp_display__buffer_clear(sdisp_t *ctx);
+
+int8_t sdisp_display__buffer_test(sdisp_t *ctx);
+
+
+
 SDISP_END_DECLS
 
 #endif  /* _SDISP_H_ */
