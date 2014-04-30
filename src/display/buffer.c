@@ -65,6 +65,7 @@ int buffer__set_pixel(sdisp_t *ctx,uint16_t x,uint16_t y,uint8_t color) {
 	sdisp_display_common_i2c__data_t* display_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
 	uint8_t* p=display_data->buffer;
 	
+	//TODO add handling of 8bit-pixels
 	if (1) {
 		//if color is b/w
 		p+=(x+(y/8)*ctx->width);
@@ -86,6 +87,7 @@ int buffer__set_pixels(sdisp_t *ctx,uint16_t start,uint16_t len, uint8_t* color)
 	
 	uint16_t pixel_count=(ctx->width*ctx->height)/8;
 	if (((start+len)/8)<pixel_count) {
+		//TODO add handling of 8bit-pixels
 		if (1) {
 			uint16_t x=start%ctx->width;
 			uint16_t y=start/ctx->width;
