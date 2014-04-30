@@ -27,13 +27,21 @@ WHITE=1
 
 image = Image.new("1", (128, 64), BLACK)
 draw = ImageDraw.Draw(image)
-#draw.line([(0, h), (W - 1, h)], WHITE)
+draw.line([(0, 0), (128, 64)], WHITE)
+draw.line([(0, 64), (128, 0)], WHITE)
  
 
-print(list(image.getdata()))
+#print(list(image.getdata()))
 
 
-sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,0,0,1)
+#sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,0,0,1)
+sdisp.sdisp_display__buffer_set_pixels(
+	sdisp_ctx,
+	0,
+	list(image.getdata())
+)
+
+
 
 #display buffer
 sdisp.sdisp_display__buffer_draw(sdisp_ctx)
