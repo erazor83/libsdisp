@@ -63,10 +63,20 @@ int buffer__fill(sdisp_t* ctx,uint8_t* p,uint16_t len, uint8_t* data) {
 
 int buffer__set_pixel(sdisp_t *ctx,uint16_t x,uint16_t y,uint8_t color) {
 	sdisp_display_common_i2c__data_t* display_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
-	uint8_t *p=display_data->buffer;
+	uint8_t* p=display_data->buffer;
 	
-	p[x+y*ctx->width]=color;
-	
+	if (1) {
+		//if color is b/w
+		p+=(x+(y/8)*ctx->width);
+		if (color) {
+			*p|= (1<<(y%8));
+		} else {
+			*p&=~(1<<(y%8));
+		}
+	} else {
+		//if color is grey-scale
+		p[x+y*ctx->width]=color;
+	}
 	return 0;
 }
 
@@ -74,9 +84,26 @@ int buffer__set_pixels(sdisp_t *ctx,uint16_t start,uint16_t len, uint8_t* color)
 	sdisp_display_common_i2c__data_t* display_data=(sdisp_display_common_i2c__data_t*)(ctx->display_data);
 	uint8_t *p=display_data->buffer;
 	
-	uint16_t pixel_count=(ctx->width*ctx->height);
-	if ((start+len)<pixel_count) {
-		memcpy(p+start,color,len);
+	uint16_t pixel_count=(ctx->width*ctx->height)/8;
+	if (((start+len)/8)<pixel_count) {
+		if (1) {
+			uint16_t x=start%ctx->width;
+			uint16_t y=start/ctx->width;
+			p+=(x+(y/8)*ctx->width);
+			while (len--) {
+				if (color) {
+					*p|= (1<<(y%8));
+				} else {
+					*p&=~(1<<(y%8));
+				}
+				x++;
+				p++;
+				if (x==ctx->width) {
+					x=0;
+					y++;
+				}
+			}
+		}
 		return 0;
 	} else {
 		return -1;

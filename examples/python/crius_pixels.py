@@ -20,8 +20,22 @@ sdisp.sdisp_display__buffer_clear(sdisp_ctx)
 #sdisp.sdisp_display__buffer_test(sdisp_ctx)
 
 
-for y in range(0,10):
-	sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,0,y,1)
+for x in range(0,10):
+	sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,x,0,1)
+
+for x in range(0,10):
+	sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,x,1,1)
+
+for x in range(0,10):
+	sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,x,3,1)
+
+
+for x in range(0,10):
+	sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,x,6,1)
+
+for x in range(0,10):
+	sdisp.sdisp_display__buffer_set_pixel(sdisp_ctx,x,10,1)
+
 
 #display buffer
 sdisp.sdisp_display__buffer_draw(sdisp_ctx)
