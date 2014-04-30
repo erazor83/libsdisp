@@ -67,6 +67,11 @@ int buffer__set_pixel(sdisp_t *ctx,uint16_t x,uint16_t y,uint8_t color) {
 	
 	//TODO add handling of 8bit-pixels
 	if (1) {
+		//each byte has 8y values
+		// x- is simply the index of the buffer
+		// y/8 is the line
+		// y%8 is the bit
+		
 		//if color is b/w
 		p+=(x+(y/8)*ctx->width);
 		if (color) {
@@ -89,17 +94,22 @@ int buffer__set_pixels(sdisp_t *ctx,uint16_t start,uint16_t len, uint8_t* color)
 	if (((start+len)/8)<pixel_count) {
 		//TODO add handling of 8bit-pixels
 		if (1) {
+			//color is a list of pixels
+			
+			//maps pixels into buffer
 			uint16_t x=start%ctx->width;
 			uint16_t y=start/ctx->width;
 			p+=(x+(y/8)*ctx->width);
 			while (len--) {
-				if (color) {
+				//printf("color: %i\n",*color);
+				if (*color) {
 					*p|= (1<<(y%8));
 				} else {
 					*p&=~(1<<(y%8));
 				}
 				x++;
 				p++;
+				color++;
 				if (x==ctx->width) {
 					x=0;
 					y++;

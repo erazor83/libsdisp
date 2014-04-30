@@ -9,9 +9,6 @@
 #include "sdisp.h"
 %}
 
-%include "sdisp_config.h"
-%include "sdisp.h"
-
 
 //map for 
 //int8_t sdisp_display__buffer_set_pixels(sdisp_t *ctx,uint16_t start, uint16_t len, uint8_t* color)
@@ -19,8 +16,8 @@
 	if (PyList_Check($input)) {
 		int i=0;
 		$1=PyList_Size($input);
-		$2 = (uint8_t*) malloc(($1+1)*sizeof(uint8_t));
-		//printf("creating uint16_t with size %i -> %i\n",$1,($1*sizeof(uint16_t)));
+		$2 = (uint8_t*) malloc($1*sizeof(uint8_t));
+		//printf("creating uint8_t with size %i -> %i\n",$1,($1*sizeof(uint8_t)));
 		for (i=0; i<$1;i++) {
 			PyObject *o = PyList_GetItem($input,i);
 			if (PyInt_Check(o)) {
@@ -40,3 +37,9 @@
 	}
 	//printf("done...\n");
 }
+%typemap(freearg) (uint16_t len, uint8_t* color) {
+   if ($2) free($2);
+}
+
+%include "sdisp_config.h"
+%include "sdisp.h"
