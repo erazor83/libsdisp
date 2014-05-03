@@ -27,10 +27,19 @@ WHITE=1
 
 image = Image.new("1", (128, 64), BLACK)
 draw = ImageDraw.Draw(image)
-draw.line([(0, 0), (128, 64)], WHITE)
-draw.line([(0, 64), (128, 0)], WHITE)
+#draw.line([(0, 0), (128, 64)], WHITE)
+#draw.line([(0, 64), (128, 0)], WHITE)
  
+font1 = ImageFont.truetype("verdana.ttf", 12)
+font2 = ImageFont.truetype("verdana.ttf", 10)
 
+draw.text((0, 0),"libsdisp",WHITE,font=font1)
+draw.text((0, 10),"   Small",WHITE,font=font2)
+draw.text((0, 18),"     Device",WHITE,font=font2)
+draw.text((0, 26),"       Display",WHITE,font=font2)
+draw.text((0, 34),"         Library",WHITE,font=font2)
+draw.line([(0, 60), (128, 60)], WHITE)
+ 
 #print(list(image.getdata()))
 
 
