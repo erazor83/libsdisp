@@ -7,6 +7,7 @@
 %module(docstring="Interface for libsdisp") sdisp
 %{
 #include "sdisp.h"
+#include "sdisp_config.h"
 %}
 
 
