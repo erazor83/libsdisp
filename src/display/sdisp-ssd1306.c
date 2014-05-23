@@ -70,7 +70,7 @@ sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr) {
 	//calls->_buffer_fill		=(void*)&sdisp_crius__buffer_fill;
 	
 	calls->buffer_clear		=(void*)&buffer__clear_i2c;
-	calls->buffer_draw		=(void*)&buffer__draw_i2c_wmove;
+	calls->buffer_draw		=(void*)&sdisp_ssd1306__buffer_draw;
 	//calls->buffer_test		=(void*)&sdisp_ssd1306__buffer_test;
 
 	calls->buffer_set_pixel		=(void*)&buffer__set_pixel;
@@ -140,9 +140,12 @@ int sdisp_ssd1306__init(sdisp_t* ctx) {
 }
 
 int sdisp_ssd1306__mov_to(sdisp_t* ctx,uint8_t x,uint8_t y) {
-	//TODO
-	//i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
-	return -1;
+	//TEST
+	i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
+	sdisp_ssd1306__cmd1(dev, SSD1306_SETLOWCOLUMN		| (x&0xf));
+	sdisp_ssd1306__cmd1(dev, SSD1306_SETHIGHCOLUMN	| ((x&0xf0)>>8));
+	sdisp_ssd1306__cmd1(dev, SSD1306_SETSTARTLINE		| y);
+	return 0;
 }
 
 int sdisp_ssd1306__draw_byte(sdisp_t* ctx,uint8_t data) {
@@ -182,22 +185,19 @@ int sdisp_ssd1306__test(sdisp_t* ctx) {
 
 int sdisp_ssd1306__buffer_draw(sdisp_t* ctx) {
 	_sdisp_print_debug(ctx,"display->buffer_draw()...");
-	//TODO
-	/*
-   ssd1306_cmd1(ssd, SSD1306_SETLOWCOLUMN | 0x0);
-   ssd1306_cmd1(ssd, SSD1306_SETHIGHCOLUMN | 0x0);
-   ssd1306_cmd1(ssd, SSD1306_SETSTARTLINE | 0x0);
-
-   uint8_t *p = ssd->buf;
-   uint8_t buf[17] ;
-   buf[0] = SSD_DATA_MODE; 
-   for (uint16_t i = 0; i < (ssd->width * ssd->height / 8); i += 16) 
-   {
-      for (uint8_t x = 1; x <= 16; x++) 
-         buf[x] = *p++;
-      i2c_xfer(ssd->i2c_dev, sizeof(buf), buf, 0, NULL);
-   }
-   */
+	i2c_dev_t* dev=((sdisp_display_common_i2c__data_t*)(ctx->display_data))->i2c_dev;
+	//TEST
+	sdisp_ssd1306__mov_to(ctx,0,0);
+	
+	uint8_t *p = ((sdisp_display_common_i2c__data_t*)(ctx->display_data))->buffer;
+	uint8_t buf[17] ;
+	buf[0] = SSD_DATA_MODE; 
+	for (uint16_t i = 0; i < (ctx->width * ctx->height / 8); i += 16) {
+		for (uint8_t x = 1; x <= 16; x++) {
+			buf[x] = *p++;
+		}
+		i2c_xfer(dev, sizeof(buf), buf, 0, NULL);
+	}
 	return 0;
 }
 

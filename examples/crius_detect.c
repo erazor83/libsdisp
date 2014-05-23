@@ -1,13 +1,18 @@
 #include <stdio.h>
 
 #include "sdisp.h"
-
-#define I2C_BUS		0
-
-int main(void) {
+int main (int argc, char *argv[]) {
+	uint8_t i2c_address;
 	sdisp_t *ctx;
 
-	ctx = sdisp_new_crius(I2C_BUS);
+        if (argc != 2) {
+		printf("usage: crius_detect <bus>\n");
+		return -1;
+	}
+
+	i2c_address=atol(argv[1]);
+	ctx = sdisp_new_crius(i2c_address);
+
 	sdisp_set_debug(ctx,SDISP_DEBUG);
 	
 	sdisp_display__init(ctx);

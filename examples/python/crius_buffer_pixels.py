@@ -7,7 +7,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))+'/'
 sys.path.append(BASE_DIR+"../../src/")
 
-I2C_BUS=0
+I2C_BUS=7
 import sdisp
 
 sdisp_ctx=sdisp.sdisp_new_crius(I2C_BUS)
