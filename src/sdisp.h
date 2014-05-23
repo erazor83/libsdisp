@@ -59,8 +59,13 @@ typedef struct _sdisp sdisp_t;
 
 #include <sdisp_config.h>
 
+#define FEATURES_TYPE			uint16_t
 /* sdisp core funcions */
 int8_t sdisp_display__init(sdisp_t*);
+int16_t sdisp_display__getWidth(sdisp_t *ctx);
+int16_t sdisp_display__getHeight(sdisp_t *ctx);
+FEATURES_TYPE sdisp_display__getFeatures(sdisp_t *ctx);
+
 int8_t sdisp_display__test(sdisp_t*);
 int8_t sdisp_display__clear(sdisp_t*);
 int8_t sdisp_display__mov_to(sdisp_t*,uint8_t,uint8_t);

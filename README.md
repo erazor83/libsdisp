@@ -61,6 +61,11 @@ sdisp_t* sdisp_new_ssd1306(uint8_t bus_nr);
 sdisp_t* sdisp_new_ssd1327(uint8_t bus_nr);
 void sdisp_close(sdisp_t*);
 
+#display info functions
+int16_t sdisp_display__getWidth(sdisp_t*);
+int16_t sdisp_display__getHeight(sdisp_t*);
+FEATURES_TYPE sdisp_display__getFeatures(sdisp_t*);
+
 #display core functions
 int8_t sdisp_display__init(sdisp_t*);
 int8_t sdisp_display__test(sdisp_t*);

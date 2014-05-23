@@ -45,6 +45,17 @@ const unsigned int libsdisp_version_micro = LIBSDISP_VERSION_MICRO;
 		return STRUCT_ACCESS_OP(__name__)(ctx, __VA_ARGS__);			\
 	}																											\
 	return -1;
+
+int16_t sdisp_display__getWidth(sdisp_t *ctx){
+	return ctx->width;
+}
+int16_t sdisp_display__getHeight(sdisp_t *ctx){
+	return ctx->height;
+}
+FEATURES_TYPE sdisp_display__getFeatures(sdisp_t *ctx){
+	return ctx->features;
+}
+
 int8_t sdisp_display__init(sdisp_t *ctx){
 	SDISP_INTERFACE_CODE(init);
 }
